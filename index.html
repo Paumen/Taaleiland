@@ -336,9 +336,9 @@ footer{ text-align:center;color:#e8f7ff;font-size:13px;margin-top:26px;font-weig
 
 <!-- naam-modal -->
 <div class="sluier verborgen" id="naamSluier">
-  <div class="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="naamTitel">
     <div style="font-size:52px;">🦜</div>
-    <h2>Ahoi! Hoe heet jij?</h2>
+    <h2 id="naamTitel">Ahoi! Hoe heet jij?</h2>
     <p style="font-weight:600;color:#5a7089;">Dan weet ik wie er op mijn eiland komt oefenen.</p>
     <input id="naamInvoer" maxlength="20" placeholder="jouw naam" autocomplete="off">
     <div style="height:14px;"></div>
@@ -377,7 +377,7 @@ const EILANDEN = [
   { id:"palmbos", naam:"Palmenbos", em:"🌴", patroon:"mkm — hakwoorden van 3 klanken",
     uitleg:"Woorden zoals vis en bal: medeklinker – klinker – medeklinker.",
     woorden:["v-i-s","b-a-l","p-e-n","s-o-k","k-i-p","b-u-s","p-e-t","j-a-s","m-e-s","z-o-n","k-a-t","v-o-s","n-e-t","d-a-k","b-a-k","w-i-p"] },
-  { id:"jungle", naam:"Papegaaienjungle", em:"🦜", patroon:"mkkm — met lange en twee-teken-klanken",
+  { id:"jungle", naam:"Papegaaienjungle", em:"🦜", patroon:"mkkm — met lange en tweetekenklanken",
     uitleg:"Woorden met aa, oo, ee, ui, eu, oe, ie… zoals maan en boot.",
     woorden:["m-aa-n","b-oo-t","h-ui-s","d-eu-r","v-uu-r","b-oo-m","b-ee-n","m-ui-s","r-oo-s","t-ee-n","t-ui-n","z-ee-p","d-ie-f","b-oe-k","p-ee-r","k-oe-k"] },
   { id:"klimrots", naam:"Klimrots", em:"⛰️", patroon:"mmkm & mkmm — twee medeklinkers naast elkaar",
@@ -764,7 +764,7 @@ function toonFlits(op){
         <button id="fl3" class="${G.flitsMs<=600?"aan":""}">🚀</button>
         <button id="flOpnieuw">👀 nog eens</button>
       </div>
-      <div class="feedback" id="spelFeedback"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
     </div>
     <div class="hulpwoord" style="text-align:center;">Welk woord zag je?</div>
     <div class="opties" id="flitsOpties"></div>`;
@@ -820,9 +820,9 @@ function toonDictee(op){
     <div class="woordvak">
       <div class="hulpwoord">🎧 Luister en typ het woord. Denk aan alle klanken!</div>
       <button class="blauw" id="dictHoor">🔊 zeg het nog eens</button>
-      <input class="dictee" id="dictIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="typ hier…">
-      <div id="dictHulp"></div>
-      <div class="feedback" id="spelFeedback"></div>
+      <input class="dictee" id="dictIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="typ hier…" aria-label="typ het woord dat je hoort">
+      <div id="dictHulp" aria-live="polite"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
       <button class="primair" id="dictOk">✅ klaar</button>
     </div>`;
   const inp = $("#dictIn");
@@ -856,7 +856,7 @@ function toonBouw(op){
       <button class="blauw" id="bouwHoor">🔊 welk woord?</button>
       <div class="bouwvak leesbaar" id="bouwVak"></div>
       <div class="tegels" id="bouwTegels"></div>
-      <div class="feedback" id="spelFeedback"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
       <button id="bouwWis">🧹 opnieuw</button>
     </div>`;
   $("#bouwHoor").onclick = ()=>zeg(plat(w));
@@ -893,7 +893,7 @@ function toonKies(op){
     <div class="woordvak">
       <div class="hulpwoord">👂 Luister… welk woord hoor je?</div>
       <button class="blauw knopgroot" id="kiesHoor">🔊 luister</button>
-      <div class="feedback" id="spelFeedback"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
     </div>
     <div class="opties" id="kiesOpties"></div>`;
   $("#kiesHoor").onclick = ()=>zeg(plat(w));
@@ -920,13 +920,14 @@ function toonSpreek(op){
       <button class="blauw" id="spreekHoor">🔊 voorbeeld</button>
       <button class="paars knopgroot" id="spreekMic">🎤 druk & spreek</button>
       <div class="mic-hint" id="spreekHint">De microfoon luistert alleen als jij op de knop drukt.</div>
-      <div class="feedback" id="spelFeedback"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
       <button class="stil verborgen" id="spreekToch">👍 ik heb het goed gezegd</button>
     </div>`;
   $("#spreekHoor").onclick = ()=>zeg(plat(w));
   let missers = 0;
   $("#spreekMic").onclick = ()=>{
     if (!Herkenning) return;
+    if (herkenner){ try{ herkenner.stop(); }catch(e){} herkenner = null; }
     try{
       herkenner = new Herkenning();
       herkenner.lang = "nl-NL";
@@ -956,7 +957,7 @@ function toonZin(op){
       <div class="hulpwoord">📖 Lees de zin. Druk op 🔊 als je hulp wilt.</div>
       <div class="leesbaar" style="font-size:calc(var(--lees-grootte) * .8);">${z.z}</div>
       <button class="blauw" id="zinHoor">🔊 lees voor</button>
-      <div class="feedback" id="spelFeedback"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
     </div>
     <div class="hulpwoord" style="text-align:center;font-size:17px;font-weight:800;">${z.v}</div>
     <div class="opties" id="zinOpties" style="grid-template-columns:1fr;"></div>`;

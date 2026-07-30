@@ -14,7 +14,7 @@ Er is geen server, account of installatie nodig; de voortgang wordt bewaard in
 - **Klankzuivere opbouw** in oplopende moeilijkheid (m = medeklinker, k = klinker):
   1. 🏖️ Schelpenstrand — *mk & km* (ik, op, zo…)
   2. 🌴 Palmenbos — *mkm* (vis, bal, pen…)
-  3. 🦜 Papegaaienjungle — *mkkm* met twee-teken-klanken (maan, boot, huis…)
+  3. 🦜 Papegaaienjungle — *mkkm* met tweetekenklanken (maan, boot, huis…)
   4. ⛰️ Klimrots — *mmkm & mkmm* clusters (step, klok, kast…)
   5. 🌋 Vulkaanpad — *mmkkm & mkkmm* (steen, feest, straat…)
   6. 💎 Geheime Grot — *kkkm-klanken* (aai/ooi/oei/eeuw/ieuw) en langere woorden
@@ -39,7 +39,7 @@ Er is geen server, account of installatie nodig; de voortgang wordt bewaard in
 
 ### Techniek
 - **Web Speech API**: `speechSynthesis` (nl-NL) voor voorlezen en dictee,
-  `SpeechRecognition` (waar de browser dat kan) voor het naspreek-spel.
+  `SpeechRecognition` (waar de browser dat kan) voor het naspreekspel.
 - **Variabel lettertype**: [Lexend](https://www.lexend.com/) (ontworpen voor leesgemak),
   met live instelbare `wght`-as, lettergrootte en **letterspatiëring** — plus
   Comic Sans als alternatief. Klinkers kunnen in kleur worden getoond.
