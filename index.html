@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Taaleiland 🏝️ — oefen taal op je eigen eiland</title>
+<meta name="description" content="Taaleiland: een vrolijke taal-oefenapp voor kinderen van groep 4-6 die extra willen oefenen met lezen en spellen.">
+<!-- Lexend: variabel lettertype, ontworpen voor beter lezen (wght-as wordt live aangepast) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300..800&family=Baloo+2:wght@500..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lees-grootte: 34px;
+  --lees-spatie: 0.06em;
+  --lees-dikte: 500;
+  --lees-hoogte: 1.7;
+  --klinker-kleur: #e63946;
+  --zee1:#7fd8f7; --zee2:#3aa7d9;
+  --zand:#ffe9c2; --zand2:#f7c873;
+  --groen:#2fae62; --groen-d:#1d8047;
+  --paars:#7c5cd6;
+  --inkt:#20324a;
+  --wit:#ffffff;
+  --fout:#e05555;
+  --kaart:#ffffffee;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Lexend", "Trebuchet MS", system-ui, sans-serif;
+  color:var(--inkt);
+  background: linear-gradient(180deg,#aee7ff 0%, var(--zee1) 45%, var(--zee2) 100%);
+  min-height:100vh;
+}
+body.font-comic .leesbaar, body.font-comic input.dictee{font-family:"Comic Sans MS","Comic Sans",cursive;}
+body.font-gewoon .leesbaar, body.font-gewoon input.dictee{font-family:system-ui,Arial,sans-serif;}
+h1,h2,h3,.titel{font-family:"Baloo 2","Lexend",sans-serif;}
+
+#app{max-width:760px;margin:0 auto;padding:12px 14px 90px;}
+
+/* ---------- topbalk ---------- */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:var(--kaart);border-radius:20px;padding:10px 14px;
+  box-shadow:0 4px 14px #1d5d8030; position:sticky; top:8px; z-index:20;
+}
+.topbar .logo{font-size:20px;font-weight:800;font-family:"Baloo 2",sans-serif;display:flex;align-items:center;gap:6px;}
+.munten{display:flex;gap:10px;align-items:center;font-weight:700;}
+.munt{background:#fff7df;border:2px solid #f2c94c;border-radius:999px;padding:4px 12px;font-size:15px;white-space:nowrap;}
+.streak{background:#ffe8e0;border:2px solid #ff9d76;border-radius:999px;padding:4px 12px;font-size:15px;white-space:nowrap;}
+
+/* ---------- knoppen ---------- */
+button{
+  font-family:inherit;font-size:17px;font-weight:700;color:var(--inkt);
+  background:var(--wit);border:none;border-radius:16px;padding:12px 18px;
+  cursor:pointer;box-shadow:0 3px 0 #00000022;
+  transition:transform .08s, box-shadow .08s;
+}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #00000022;}
+button.primair{background:var(--groen);color:#fff;box-shadow:0 4px 0 var(--groen-d);}
+button.blauw{background:#2f86d6;color:#fff;box-shadow:0 4px 0 #1c5f9e;}
+button.geel{background:#f8c93e;box-shadow:0 4px 0 #c99a12;}
+button.paars{background:var(--paars);color:#fff;box-shadow:0 4px 0 #5a3fb0;}
+button.stil{background:transparent;box-shadow:none;font-weight:600;text-decoration:underline;}
+button:disabled{opacity:.45;cursor:default;}
+.knopgroot{font-size:20px;padding:16px 26px;border-radius:20px;}
+
+/* ---------- schermen ---------- */
+.scherm{display:none;animation:fadein .25s ease;}
+.scherm.actief{display:block;}
+@keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* ---------- Kiko ---------- */
+.kiko{display:flex;gap:10px;align-items:flex-start;margin:16px 0;}
+.kiko .vogel{font-size:46px;filter:drop-shadow(0 3px 3px #0002);animation:wiebel 3s ease-in-out infinite;}
+@keyframes wiebel{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(5deg) translateY(-3px);}}
+.ballon{
+  background:var(--wit);border-radius:18px;border-bottom-left-radius:4px;
+  padding:12px 16px;font-size:16.5px;line-height:1.5;box-shadow:0 3px 10px #1d5d8025;flex:1;
+}
+
+/* ---------- eilandkaarten ---------- */
+.eilanden{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+@media(max-width:520px){.eilanden{grid-template-columns:1fr;}}
+.eiland{
+  background:var(--kaart);border-radius:22px;padding:14px 16px;text-align:left;
+  display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;
+}
+.eiland .em{font-size:38px;}
+.eiland .naam{font-size:19px;font-weight:800;font-family:"Baloo 2",sans-serif;}
+.eiland .patroon{font-size:13px;color:#5a7089;font-weight:600;letter-spacing:.04em;}
+.eiland .sterren{font-size:18px;letter-spacing:2px;}
+.eiland.dicht{filter:grayscale(.75);opacity:.75;}
+.slotje{position:absolute;top:10px;right:12px;font-size:22px;}
+.balkje{height:10px;background:#e2ecf4;border-radius:99px;overflow:hidden;}
+.balkje > i{display:block;height:100%;background:linear-gradient(90deg,#38c172,#7bd88f);border-radius:99px;transition:width .5s;}
+
+.rijknoppen{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0;}
+
+/* ---------- eiland-detail ---------- */
+.spelknop{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:var(--kaart);border-radius:20px;padding:14px 16px;margin-bottom:10px;
+}
+.spelknop .ic{font-size:34px;}
+.spelknop .info{flex:1;}
+.spelknop .info b{font-size:18px;display:block;}
+.spelknop .info span{font-size:13.5px;color:#5a7089;font-weight:600;}
+.spelknop .best{font-size:14px;font-weight:800;color:var(--groen-d);white-space:nowrap;}
+
+/* ---------- spel ---------- */
+.spelkop{display:flex;align-items:center;gap:10px;margin:14px 0 8px;}
+.spelkop .voortgang{flex:1;}
+.woordvak{
+  background:var(--kaart);border-radius:26px;min-height:170px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  padding:24px 16px;margin:10px 0;box-shadow:0 6px 18px #1d5d8025;text-align:center;
+}
+.leesbaar{
+  font-size:var(--lees-grootte);
+  letter-spacing:var(--lees-spatie);
+  font-weight:var(--lees-dikte);
+  font-variation-settings:"wght" var(--lees-dikte);
+  line-height:var(--lees-hoogte);
+  word-spacing:.25em;
+}
+.klinkers-aan .kl{color:var(--klinker-kleur);}
+.chunk{display:inline-block;transition:transform .15s;}
+.chunk.hak{background:#fff3c9;border-radius:8px;padding:0 3px;margin:0 2px;outline:2px dashed #e3b93e;}
+.chunk.zing{transform:scale(1.25);color:var(--paars);}
+.opties{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+@media(max-width:440px){.opties{grid-template-columns:1fr;}}
+.opties button{font-size:24px;padding:16px;letter-spacing:var(--lees-spatie);font-weight:var(--lees-dikte);font-variation-settings:"wght" var(--lees-dikte);}
+.opties button.goedantw{background:#d7f5e2;outline:3px solid var(--groen);}
+.opties button.foutantw{background:#ffe0e0;outline:3px solid var(--fout);animation:tril .3s;}
+@keyframes tril{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+input.dictee{
+  font-size:32px;letter-spacing:var(--lees-spatie);text-align:center;
+  border:3px solid #bcd6ea;border-radius:16px;padding:10px 14px;width:min(420px,92%);
+  font-family:inherit;color:var(--inkt);background:#fff;
+}
+input.dictee:focus{outline:none;border-color:#2f86d6;}
+.tegels{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.tegel{
+  font-size:30px;font-weight:700;background:#fff;border:3px solid #f2c94c;
+  border-radius:14px;padding:10px 16px;min-width:56px;
+  letter-spacing:var(--lees-spatie);
+}
+.tegel.op{visibility:hidden;}
+.bouwvak{min-height:64px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;
+  background:#f3f9ff;border-radius:14px;padding:8px 14px;border:3px dashed #bcd6ea;width:min(460px,94%);}
+.feedback{min-height:34px;font-size:19px;font-weight:800;}
+.feedback.goed{color:var(--groen-d);}
+.feedback.fout{color:var(--fout);}
+.hulpwoord{font-size:15px;color:#5a7089;font-weight:600;}
+
+/* flits */
+.flitswoord{transition:opacity .1s;}
+.flitswoord.weg{opacity:0;}
+.snelheid{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:700;color:#456;}
+.snelheid button{font-size:20px;padding:6px 12px;}
+.snelheid button.aan{background:#d7ecff;outline:3px solid #2f86d6;}
+
+/* ---------- einde / beloning ---------- */
+.eindkaart{background:var(--kaart);border-radius:26px;padding:26px;text-align:center;margin-top:16px;box-shadow:0 6px 18px #1d5d8025;}
+.eindkaart .groot{font-size:52px;}
+.eindkaart h2{margin:8px 0 4px;}
+.mopje{background:#fdf1ff;border:2px dashed var(--paars);border-radius:16px;padding:12px 14px;margin:14px 0;font-size:16px;line-height:1.5;}
+
+/* ---------- winkel & mijn eiland ---------- */
+.scene{
+  position:relative;height:230px;border-radius:24px;overflow:hidden;margin:12px 0;
+  background:linear-gradient(180deg,#bfeaff 0%,#8fd9f5 55%,var(--zand) 55%,var(--zand2) 100%);
+  box-shadow:0 6px 18px #1d5d8025;
+}
+.scene .zonnetje{position:absolute;top:10px;right:16px;font-size:40px;animation:draai 24s linear infinite;}
+@keyframes draai{to{transform:rotate(360deg);}}
+.scene .item{position:absolute;font-size:34px;filter:drop-shadow(0 2px 2px #0002);animation:dobber 4s ease-in-out infinite;}
+@keyframes dobber{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+.winkelrij{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
+.waar{background:var(--kaart);border-radius:18px;padding:12px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center;}
+.waar .em{font-size:36px;}
+.waar .naam{font-weight:700;font-size:14px;}
+.waar button{font-size:14px;padding:8px 14px;}
+.waar.gekocht{outline:3px solid var(--groen);}
+
+/* ---------- instellingen ---------- */
+.paneel{background:var(--kaart);border-radius:22px;padding:18px;margin-top:14px;}
+.instelrij{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.instelrij label{font-weight:700;font-size:15px;}
+.instelrij input[type=range]{width:100%;accent-color:#2f86d6;height:28px;}
+.instelrij .keuzes{display:flex;gap:8px;flex-wrap:wrap;}
+.instelrij .keuzes button.aan{background:#d7ecff;outline:3px solid #2f86d6;}
+.voorbeeldtekst{background:#fff;border-radius:14px;padding:12px;text-align:center;}
+
+/* ---------- confetti ---------- */
+.confetti{position:fixed;top:-40px;font-size:26px;z-index:99;pointer-events:none;animation:val linear forwards;}
+@keyframes val{to{transform:translateY(110vh) rotate(540deg);opacity:.7;}}
+
+/* ---------- naam-modal ---------- */
+.sluier{position:fixed;inset:0;background:#0b3652aa;display:flex;align-items:center;justify-content:center;z-index:50;padding:16px;}
+.modal{background:var(--wit);border-radius:26px;padding:26px;max-width:430px;width:100%;text-align:center;}
+.modal input{font-size:24px;text-align:center;border:3px solid #bcd6ea;border-radius:14px;padding:10px;width:90%;font-family:inherit;}
+.verborgen{display:none !important;}
+
+.terugknop{margin-top:6px;}
+.mic-hint{font-size:13.5px;color:#5a7089;font-weight:600;}
+footer{ text-align:center;color:#e8f7ff;font-size:13px;margin-top:26px;font-weight:600;}
+</style>
+</head>
+<body class="klinkers-aan">
+<div id="app">
+
+  <div class="topbar">
+    <div class="logo">🏝️ Taaleiland</div>
+    <div class="munten">
+      <span class="munt" id="schelpenTeller">🐚 0</span>
+      <span class="streak" id="streakTeller">🔥 0</span>
+      <button class="stil" id="knopInstellingen" title="Instellingen" style="font-size:22px;padding:2px 6px;">⚙️</button>
+    </div>
+  </div>
+
+  <!-- ================= HOME / KAART ================= -->
+  <section class="scherm actief" id="scherm-home">
+    <div class="kiko">
+      <div class="vogel">🦜</div>
+      <div class="ballon" id="kikoHome">Hoi! Ik ben Kiko de papegaai. Welkom op Taaleiland!</div>
+    </div>
+
+    <div class="rijknoppen">
+      <button class="geel" id="knopWinkel">🛍️ Winkeltje</button>
+      <button class="paars verborgen" id="knopHerhaal">🔁 Kiko's herhaalles</button>
+    </div>
+
+    <div class="eilanden" id="eilandLijst"></div>
+  </section>
+
+  <!-- ================= EILAND-DETAIL ================= -->
+  <section class="scherm" id="scherm-eiland">
+    <div class="kiko">
+      <div class="vogel">🦜</div>
+      <div class="ballon" id="kikoEiland"></div>
+    </div>
+    <h2 id="eilandTitel" style="margin:6px 0 2px;"></h2>
+    <div class="hulpwoord" id="eilandUitleg" style="margin-bottom:12px;"></div>
+    <div id="spelLijst"></div>
+    <button class="terugknop" id="terugVanEiland">⬅️ terug naar de kaart</button>
+  </section>
+
+  <!-- ================= SPEL ================= -->
+  <section class="scherm" id="scherm-spel">
+    <div class="spelkop">
+      <button id="stopSpel" title="Stoppen">✖️</button>
+      <div class="voortgang balkje"><i id="spelBalk" style="width:0%"></i></div>
+      <span id="spelStand" style="font-weight:800;">0/8</span>
+    </div>
+    <div id="spelGebied"></div>
+  </section>
+
+  <!-- ================= EINDE ================= -->
+  <section class="scherm" id="scherm-einde">
+    <div class="eindkaart">
+      <div class="groot" id="eindEmoji">🎉</div>
+      <h2 id="eindTitel">Goed gedaan!</h2>
+      <div id="eindScore" style="font-size:18px;font-weight:700;"></div>
+      <div id="eindSchelpen" style="font-size:18px;margin-top:6px;"></div>
+      <div class="mopje" id="eindMop"></div>
+      <div class="rijknoppen" style="justify-content:center;">
+        <button class="primair knopgroot" id="eindNogEens">🔁 nog een keer</button>
+        <button class="blauw knopgroot" id="eindTerug">🗺️ naar de kaart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WINKEL ================= -->
+  <section class="scherm" id="scherm-winkel">
+    <h2 style="margin:14px 0 2px;">🛍️ Het winkeltje</h2>
+    <div class="hulpwoord">Spaar schelpen 🐚 met oefenen en maak jouw eiland steeds mooier!</div>
+    <div class="scene" id="mijnEiland"><div class="zonnetje">☀️</div></div>
+    <div class="winkelrij" id="winkelLijst"></div>
+    <button class="terugknop" id="terugVanWinkel">⬅️ terug naar de kaart</button>
+  </section>
+
+  <!-- ================= INSTELLINGEN ================= -->
+  <section class="scherm" id="scherm-instellingen">
+    <h2 style="margin:14px 0 2px;">⚙️ Instellingen</h2>
+    <div class="hulpwoord">Stel de letters zó in dat lezen voor jou het fijnst is.</div>
+    <div class="paneel">
+      <div class="voorbeeldtekst"><span class="leesbaar" id="voorbeeldWoord"></span></div>
+      <div style="height:14px;"></div>
+      <div class="instelrij">
+        <label>Lettertype</label>
+        <div class="keuzes" id="fontKeuzes">
+          <button data-font="lexend">Lexend (leesletter)</button>
+          <button data-font="comic">Comic Sans</button>
+          <button data-font="gewoon">Gewoon</button>
+        </div>
+      </div>
+      <div class="instelrij">
+        <label>Lettergrootte: <span id="lblGrootte"></span></label>
+        <input type="range" id="regelGrootte" min="24" max="52" step="1">
+      </div>
+      <div class="instelrij">
+        <label>Ruimte tussen letters: <span id="lblSpatie"></span></label>
+        <input type="range" id="regelSpatie" min="0" max="25" step="1">
+      </div>
+      <div class="instelrij">
+        <label>Letterdikte (variabel lettertype): <span id="lblDikte"></span></label>
+        <input type="range" id="regelDikte" min="300" max="800" step="10">
+      </div>
+      <div class="instelrij">
+        <label>Klinkers in kleur</label>
+        <div class="keuzes" id="klinkerKeuzes">
+          <button data-kl="aan">🔴 aan</button>
+          <button data-kl="uit">uit</button>
+        </div>
+      </div>
+      <div class="instelrij">
+        <label>Voorleessnelheid: <span id="lblTempo"></span></label>
+        <input type="range" id="regelTempo" min="55" max="110" step="5">
+      </div>
+      <div class="instelrij">
+        <label>Speler</label>
+        <div class="keuzes">
+          <button id="knopNaam">✏️ naam veranderen</button>
+          <button id="knopReset" style="color:#b23;">🗑️ alles opnieuw beginnen</button>
+        </div>
+      </div>
+    </div>
+    <button class="terugknop" id="terugVanInstellingen">⬅️ terug naar de kaart</button>
+  </section>
+
+  <footer>Taaleiland • oefenen met lezen en spellen voor groep 4, 5 en 6 • werkt helemaal in je browser</footer>
+</div>
+
+<!-- naam-modal -->
+<div class="sluier verborgen" id="naamSluier">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="naamTitel">
+    <div style="font-size:52px;">🦜</div>
+    <h2 id="naamTitel">Ahoi! Hoe heet jij?</h2>
+    <p style="font-weight:600;color:#5a7089;">Dan weet ik wie er op mijn eiland komt oefenen.</p>
+    <input id="naamInvoer" maxlength="20" placeholder="jouw naam" autocomplete="off">
+    <div style="height:14px;"></div>
+    <button class="primair knopgroot" id="naamOk">🚣 Naar het eiland!</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* =========================================================================
+   Taaleiland — oefen-app voor lezen & spellen (groep 4-6, dyslexievriendelijk)
+   Didactiek: klankzuivere opbouw (m = medeklinker, k = klinker), hakken &
+   plakken, veel herhaling met directe feedback, foutwoorden komen terug,
+   korte succesvolle oefenrondes, multisensorieel (zien + horen + typen).
+   ========================================================================= */
+
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const husselen = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const kies1 = a => a[Math.floor(Math.random()*a.length)];
+
+/* ------------------------- klanken ------------------------- */
+// klinker-klanken (voor kleuren + hakken); langste eerst bij het parsen
+const KLINKERS = ["eeuw","ieuw","aai","ooi","oei","aa","ee","oo","uu","ie","oe","ui","eu","ei","ij","au","ou","a","e","i","o","u"];
+const isKlinker = ch => KLINKERS.includes(ch);
+
+// woorden staan genoteerd als klanken met streepjes: "m-aa-n"
+const chunks = w => w.split("-");
+const plat  = w => chunks(w).join("");
+
+/* ------------------------- eilanden & woordlijsten ------------------------- */
+const EILANDEN = [
+  { id:"strand", naam:"Schelpenstrand", em:"🏖️", patroon:"mk & km — woorden van 2 klanken",
+    uitleg:"Korte woordjes van twee klanken, zoals ik en zo.",
+    woorden:["i-k","o-p","a-l","e-n","i-n","o-m","a-f","o-f","j-a","z-o","n-u","n-a"] },
+  { id:"palmbos", naam:"Palmenbos", em:"🌴", patroon:"mkm — hakwoorden van 3 klanken",
+    uitleg:"Woorden zoals vis en bal: medeklinker – klinker – medeklinker.",
+    woorden:["v-i-s","b-a-l","p-e-n","s-o-k","k-i-p","b-u-s","p-e-t","j-a-s","m-e-s","z-o-n","k-a-t","v-o-s","n-e-t","d-a-k","b-a-k","w-i-p"] },
+  { id:"jungle", naam:"Papegaaienjungle", em:"🦜", patroon:"mkkm — met lange en tweetekenklanken",
+    uitleg:"Woorden met aa, oo, ee, ui, eu, oe, ie… zoals maan en boot.",
+    woorden:["m-aa-n","b-oo-t","h-ui-s","d-eu-r","v-uu-r","b-oo-m","b-ee-n","m-ui-s","r-oo-s","t-ee-n","t-ui-n","z-ee-p","d-ie-f","b-oe-k","p-ee-r","k-oe-k"] },
+  { id:"klimrots", naam:"Klimrots", em:"⛰️", patroon:"mmkm & mkmm — twee medeklinkers naast elkaar",
+    uitleg:"Klim omhoog met woorden zoals step, klok en kast.",
+    woorden:["s-t-e-p","k-l-o-k","s-l-a-k","s-p-i-n","t-r-a-p","g-r-a-s","k-w-a-l","s-n-o-r","f-l-e-s","k-n-o-p","d-r-o-p","k-a-s-t","t-e-n-t","w-e-s-p","m-e-l-k","v-l-a-g"] },
+  { id:"vulkaan", naam:"Vulkaanpad", em:"🌋", patroon:"mmkkm & mkkmm — lange klank én cluster",
+    uitleg:"Hete woorden zoals steen, feest en straat. Jij kunt dit!",
+    woorden:["s-t-ee-n","k-r-oo-n","s-l-oo-t","s-t-oe-p","z-w-ee-p","f-ee-s-t","k-aa-r-t","k-w-a-s-t","p-l-a-n-t","s-t-r-aa-t","s-p-oo-k","g-r-oe-n","z-w-aa-n","d-r-aa-k","k-r-a-n-t","s-t-oe-l"] },
+  { id:"grot", naam:"Geheime Grot", em:"💎", patroon:"kkkm-klanken (aai, ooi, eeuw…) & lange woorden",
+    uitleg:"Schatzoek-woorden met aai, ooi, oei, eeuw, ieuw en lange woorden.",
+    woorden:["h-aai","k-r-aai","m-ooi","k-ooi","g-r-oei","l-eeuw","m-eeuw","s-n-eeuw","n-ieuw","ei-l-a-n-d","b-a-n-aa-n","p-i-r-aa-t","v-u-l-k-aa-n","s-ch-e-l-p","s-t-r-a-n-d","p-a-p-e-g-aai","d-o-l-f-ij-n","k-o-k-o-s-n-oo-t"] },
+  { id:"zee", naam:"Zinnenzee", em:"⛵", patroon:"korte zinnen & tekstjes", zinnen:true,
+    uitleg:"Vaar over de zee en lees korte zinnen en tekstjes." },
+];
+
+const ZINNEN = [
+  { z:"de vis zwemt in de zee.", v:"wie zwemt er in de zee?", o:["de vis","de kat","de bus"], a:0 },
+  { z:"kiko de papegaai eet een banaan.", v:"wat eet kiko?", o:["een appel","een banaan","een taart"], a:1 },
+  { z:"ik bouw een kasteel van zand.", v:"waar is het kasteel van?", o:["van steen","van hout","van zand"], a:2 },
+  { z:"de krab loopt raar over het strand.", v:"wie loopt er raar?", o:["de krab","de maan","opa"], a:0 },
+  { z:"op het eiland staat een grote vulkaan.", v:"wat staat er op het eiland?", o:["een school","een vulkaan","een flat"], a:1 },
+  { z:"de piraat zoekt een schat in de grot.", v:"wat zoekt de piraat?", o:["een schat","een sok","een fiets"], a:0 },
+  { z:"de dolfijn springt hoog uit het water.", v:"wie springt er hoog?", o:["de mus","de slak","de dolfijn"], a:2 },
+  { z:"mam drinkt sap uit een kokosnoot.", v:"waar drinkt mam uit?", o:["een kokosnoot","een glas","een laars"], a:0 },
+  { z:"de aap gooit met een kokosnoot. pas op je hoofd!", v:"waar gooit de aap mee?", o:["met zand","met een kokosnoot","met een bal"], a:1 },
+  { z:"in de boom hangt een rijpe banaan. de aap wil hem pakken. maar de tak is te hoog!", v:"wat wil de aap pakken?", o:["de banaan","de boot","de zon"], a:0 },
+  { z:"kiko vliegt naar de top van de vulkaan. daar is het lekker warm aan zijn tenen.", v:"waar vliegt kiko naar toe?", o:["naar school","naar de top van de vulkaan","naar de maan"], a:1 },
+  { z:"het bootje dobbert op de golven. een meeuw zit op de mast. hij krijst heel hard.", v:"wie zit er op de mast?", o:["een leeuw","een muis","een meeuw"], a:2 },
+];
+
+const MOPPEN = [
+  "Wat zegt de ene vis tegen de andere vis? … Niks! Vissen kunnen niet praten. 🐟",
+  "Waarom nam de banaan zonnebrandcrème mee naar het strand? Anders zou hij vervellen! 🍌",
+  "Wat is geel en kan niet zwemmen? Een graafmachine… die kan óók niet zwemmen! 🚜",
+  "Hoe noem je een papegaai zonder veren? Kaal-e Kiko! 🦜",
+  "Wat doet een krab als hij jarig is? Een feestje met een taart-schaar! 🦀",
+  "Waarom ging de zeester naar school? Om een ster in taal te worden! ⭐",
+  "Wat zegt een slak op de rug van een schildpad? Wiiiiiiii, wat gaan we snel! 🐌",
+  "Welke vis kun je niet vertrouwen? De zwaardvis, die neemt je in de maling! 🗡️",
+  "Wat is het toppunt van geduld? Een vulkaan die op zijn beurt wacht. 🌋",
+  "Waarom lachte de golf niet om de mop? Hij was al gebroken op het strand! 🌊",
+  "Wat zegt de zee tegen het strand? Niks, hij zwaait alleen maar! 👋",
+  "Hoe noem je een dolfijn die goed kan spellen? Een dol-FIJN-proefje! 🐬",
+  "Wat leest een piraat het liefst? Een boek vol schat-tige verhalen! 🏴‍☠️",
+  "Waarom zit de meeuw op de mast? Omdat hij geen stoel heeft meegenomen! ⛵",
+  "Wat zegt een kokosnoot als hij valt? Kokos-AUW! 🥥",
+];
+
+const COMPLIMENTEN = [
+  "Superknap, NAAM! 🌟","Wauw, goed zeg! 🎉","Jij bent een taalkanjer! 🦜","Yes! Helemaal goed! ✨",
+  "Kiko klapt met zijn vleugels voor jou! 👏","Toppertje! 🐚","Petje af, NAAM! 🎩","Boem! Weer goed! 💥",
+  "Jij leest als een piraat met een bril: ge-wel-dig! 🏴‍☠️","Dat ging supersnel én supergoed! ⚡",
+];
+const TROOST = [
+  "Bijna! Kijk maar even mee. 👀","Geen zorgen, van proberen leer je juist! 💪",
+  "Oeps, maar Kiko helpt je even. 🦜","Nog niet helemaal — samen kijken we hoe het moet. 🤝",
+];
+
+const WINKEL = [
+  { id:"palm",   em:"🌴", naam:"Palmboom",     prijs:15, x:6,  y:56 },
+  { id:"krab",   em:"🦀", naam:"Krab",         prijs:10, x:30, y:78 },
+  { id:"boot",   em:"⛵", naam:"Zeilboot",     prijs:25, x:66, y:34 },
+  { id:"dolfijn",em:"🐬", naam:"Dolfijn",      prijs:30, x:84, y:40 },
+  { id:"kasteel",em:"🏰", naam:"Zandkasteel",  prijs:35, x:52, y:66 },
+  { id:"zeester",em:"⭐", naam:"Zeester",      prijs:10, x:18, y:84 },
+  { id:"schildpad",em:"🐢",naam:"Schildpad",   prijs:20, x:44, y:82 },
+  { id:"ijsje",  em:"🍦", naam:"IJskraampje",  prijs:20, x:80, y:70 },
+  { id:"bloem",  em:"🌺", naam:"Bloemen",      prijs:15, x:14, y:66 },
+  { id:"vlieger",em:"🪁", naam:"Vlieger",      prijs:15, x:40, y:16 },
+  { id:"schat",  em:"💰", naam:"Schatkist",    prijs:50, x:64, y:80 },
+  { id:"vuurtoren",em:"🗼",naam:"Vuurtoren",   prijs:60, x:90, y:56 },
+];
+
+/* ------------------------- opslag ------------------------- */
+const OPSLAG = "taaleiland-v1";
+let S = {
+  naam:"", schelpen:0, streak:0, laatsteDag:"", geoefend:0,
+  best:{},                 // best["palmbos:flits"] = 88  (percentage)
+  fouten:[],               // ["m-aa-n", ...]
+  gekocht:[],
+  instel:{ font:"lexend", grootte:34, spatie:6, dikte:500, klinkers:true, tempo:85 },
+};
+function laad(){ try{ const r=localStorage.getItem(OPSLAG); if(r) S = Object.assign(S, JSON.parse(r)); }catch(e){} }
+function bewaar(){ try{ localStorage.setItem(OPSLAG, JSON.stringify(S)); }catch(e){} }
+
+/* ------------------------- spraak (Web Speech API) ------------------------- */
+let stemNL = null;
+function zoekStem(){
+  const vs = speechSynthesis.getVoices();
+  stemNL = vs.find(v=>/^nl(-|_)/i.test(v.lang)) || vs.find(v=>/nl/i.test(v.lang)) || null;
+}
+if ("speechSynthesis" in window){
+  zoekStem();
+  speechSynthesis.onvoiceschanged = zoekStem;
+}
+function zeg(tekst, tempo){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(tekst);
+  u.lang = "nl-NL";
+  if (stemNL) u.voice = stemNL;
+  u.rate = (tempo ?? S.instel.tempo) / 100;
+  u.pitch = 1.05;
+  speechSynthesis.speak(u);
+}
+
+// spraakherkenning (alleen waar de browser het kan)
+const Herkenning = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+
+/* ------------------------- geluidjes ------------------------- */
+let audioCtx = null;
+function piep(goed){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const t = audioCtx.currentTime;
+    const noten = goed ? [660, 880] : [230];
+    noten.forEach((f,i)=>{
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = "sine"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t+i*0.12);
+      g.gain.exponentialRampToValueAtTime(0.25, t+i*0.12+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+i*0.12+0.25);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t+i*0.12); o.stop(t+i*0.12+0.3);
+    });
+  }catch(e){}
+}
+
+function confetti(){
+  const emo = ["🎉","⭐","🐚","🌟","🎊","🦜"];
+  for(let i=0;i<36;i++){
+    const s = document.createElement("span");
+    s.className = "confetti";
+    s.textContent = kies1(emo);
+    s.style.left = Math.random()*100 + "vw";
+    s.style.animationDuration = (1.6+Math.random()*1.6)+"s";
+    s.style.animationDelay = (Math.random()*0.5)+"s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(), 3600);
+  }
+}
+
+/* ------------------------- woord-weergave ------------------------- */
+// bouwt HTML met klank-stukjes; klinkers krijgen class "kl" (kleur via instelling)
+function woordHTML(w, opties={}){
+  return chunks(w).map((c,i)=>{
+    const kl = isKlinker(c) ? " kl" : "";
+    const hak = opties.hakken ? " hak" : "";
+    return `<span class="chunk${kl}${hak}" data-i="${i}">${c}</span>`;
+  }).join(opties.hakken ? "" : "");
+}
+
+// "hakken en plakken": stukjes lichten één voor één op, daarna het hele woord langzaam en gewoon
+function hakEnPlak(w, houder){
+  const stukken = houder ? houder.querySelectorAll(".chunk") : [];
+  let i = 0;
+  const stap = ()=>{
+    stukken.forEach(s=>s.classList.remove("zing"));
+    if (i < stukken.length){
+      stukken[i].classList.add("zing");
+      i++; setTimeout(stap, 550);
+    } else {
+      zeg(plat(w), 55);
+      setTimeout(()=>zeg(plat(w)), 1400);
+    }
+  };
+  stap();
+}
+
+/* ------------------------- navigatie ------------------------- */
+function ga(id){
+  $$(".scherm").forEach(s=>s.classList.remove("actief"));
+  $("#scherm-"+id).classList.add("actief");
+  window.scrollTo({top:0});
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+/* ------------------------- kop / munten ------------------------- */
+function toonMunten(){
+  $("#schelpenTeller").textContent = "🐚 " + S.schelpen;
+  $("#streakTeller").textContent = "🔥 " + S.streak + (S.streak===1?" dag":" dagen");
+}
+function vandaagStr(){ return new Date().toISOString().slice(0,10); }
+function werkStreakBij(){
+  const nu = vandaagStr();
+  if (S.laatsteDag === nu) return;
+  const gister = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  S.streak = (S.laatsteDag === gister) ? S.streak+1 : 1;
+  S.laatsteDag = nu;
+  bewaar(); toonMunten();
+}
+
+/* ------------------------- spellen-definitie ------------------------- */
+const SPELLEN = [
+  { id:"flits",  ic:"⚡", naam:"Flitslezen",     uit:"Het woord flitst voorbij. Wat stond er?" },
+  { id:"dictee", ic:"🎧", naam:"Luister & typ",  uit:"Luister goed en typ het woord." },
+  { id:"bouw",   ic:"🧩", naam:"Woordbouwer",    uit:"Bouw het woord met de klank-stenen." },
+  { id:"kies",   ic:"👂", naam:"Kies het woord", uit:"Hoor het woord en kies het juiste." },
+];
+const SPEL_SPREEK = { id:"spreek", ic:"🎤", naam:"Zeg het na", uit:"Lees het woord hardop in de microfoon." };
+const SPEL_ZIN = { id:"zin", ic:"📖", naam:"Zinnen lezen", uit:"Lees de zin en geef antwoord op de vraag." };
+
+function spellenVoor(ei){
+  if (ei.zinnen) return [SPEL_ZIN];
+  const lijst = [...SPELLEN];
+  if (Herkenning) lijst.push(SPEL_SPREEK);
+  return lijst;
+}
+
+/* ------------------------- home renderen ------------------------- */
+function sterren(ei){
+  const ids = spellenVoor(ei).map(s=>s.id);
+  const n = ids.filter(id => (S.best[ei.id+":"+id]||0) >= 80).length;
+  return Math.min(3, n);
+}
+function eilandVoortgang(ei){
+  const ids = spellenVoor(ei).map(s=>s.id);
+  const som = ids.reduce((t,id)=>t+(S.best[ei.id+":"+id]||0),0);
+  return Math.round(som/ids.length);
+}
+function eilandOpen(idx){
+  if (idx===0) return true;
+  const vorige = EILANDEN[idx-1];
+  return spellenVoor(vorige).some(s => (S.best[vorige.id+":"+s.id]||0) > 0);
+}
+
+function toonHome(){
+  toonMunten();
+  const uur = new Date().getHours();
+  const groet = uur<12?"Goedemorgen":uur<18?"Hoi":"Goedenavond";
+  $("#kikoHome").textContent = `${groet} ${S.naam||"matroos"}! ${kies1([
+    "Welk eiland kies jij vandaag?",
+    "Klaar voor een taal-avontuur?",
+    "Elke oefening = schelpen sparen! 🐚",
+    "Weet je nog? Fouten maken mag, daar leer je van!",
+  ])}`;
+  const lijst = $("#eilandLijst");
+  lijst.innerHTML = "";
+  EILANDEN.forEach((ei,idx)=>{
+    const open = eilandOpen(idx);
+    const st = sterren(ei);
+    const pct = eilandVoortgang(ei);
+    const b = document.createElement("button");
+    b.className = "eiland" + (open?"":" dicht");
+    b.innerHTML = `
+      ${open?"":'<span class="slotje">🔒</span>'}
+      <span class="em">${ei.em}</span>
+      <span class="naam">${ei.naam}</span>
+      <span class="patroon">${ei.patroon}</span>
+      <span class="sterren">${"⭐".repeat(st)}${"☆".repeat(3-st)}</span>
+      <span class="balkje"><i style="width:${pct}%"></i></span>`;
+    b.onclick = ()=>{
+      if(!open){ zeg("Dit eiland gaat open als je eerst op het vorige eiland oefent."); $("#kikoHome").textContent="🔒 Speel eerst een spel op het eiland hiervoor, dan vaart de boot verder!"; return; }
+      openEiland(idx);
+    };
+    lijst.appendChild(b);
+  });
+  $("#knopHerhaal").classList.toggle("verborgen", S.fouten.length < 4);
+}
+
+/* ------------------------- eiland-detail ------------------------- */
+let huidigEiland = 0;
+function openEiland(idx){
+  huidigEiland = idx;
+  const ei = EILANDEN[idx];
+  $("#eilandTitel").textContent = `${ei.em} ${ei.naam}`;
+  $("#eilandUitleg").textContent = ei.uitleg + " " + (ei.zinnen?"":"("+ei.patroon+")");
+  $("#kikoEiland").textContent = kies1([
+    `Welkom op ${ei.naam}, ${S.naam}!`,
+    `Land in zicht! Dit is ${ei.naam}.`,
+    `Hier oefenen we: ${ei.patroon}.`,
+  ]);
+  const lijst = $("#spelLijst");
+  lijst.innerHTML = "";
+  spellenVoor(ei).forEach(sp=>{
+    const best = S.best[ei.id+":"+sp.id]||0;
+    const b = document.createElement("button");
+    b.className = "spelknop";
+    b.innerHTML = `<span class="ic">${sp.ic}</span>
+      <span class="info"><b>${sp.naam}</b><span>${sp.uit}</span></span>
+      <span class="best">${best?best+"% "+(best>=80?"⭐":""):"nieuw!"}</span>`;
+    b.onclick = ()=>startSpel(idx, sp.id);
+    lijst.appendChild(b);
+  });
+  ga("eiland");
+}
+
+/* ------------------------- spel-motor ------------------------- */
+let G = null;          // actueel spel
+let flitsTimer = null;
+let herkenner = null;
+
+function maakOpgaven(ei, spelId){
+  if (spelId === "zin") return husselen(ZINNEN).slice(0,6).map(z=>({zin:z}));
+  if (spelId === "herhaal"){
+    return husselen(S.fouten).slice(0,8).map(w=>({w, vorm: kies1(["dictee","kies","flits"])}));
+  }
+  const n = spelId==="bouw" ? 6 : 8;
+  return husselen(ei.woorden).slice(0,n).map(w=>({w}));
+}
+
+function startSpel(eiIdx, spelId){
+  const ei = EILANDEN[eiIdx];
+  G = {
+    eiIdx, ei, spelId,
+    opgaven: maakOpgaven(ei, spelId),
+    i:0, eersteKeerGoed:0, schelpen:0, poging:0,
+    flitsMs: 1800,
+  };
+  ga("spel");
+  volgende(true);
+}
+
+function startHerhaal(){
+  G = {
+    eiIdx:-1, ei:{id:"herhaal", naam:"Kiko's herhaalles"}, spelId:"herhaal",
+    opgaven: maakOpgaven(null,"herhaal"),
+    i:0, eersteKeerGoed:0, schelpen:0, poging:0, flitsMs:2200,
+  };
+  ga("spel");
+  volgende(true);
+}
+
+function stand(){
+  $("#spelStand").textContent = `${G.i}/${G.opgaven.length}`;
+  $("#spelBalk").style.width = (G.i/G.opgaven.length*100)+"%";
+}
+
+function volgende(eerste){
+  clearTimeout(flitsTimer);
+  if (herkenner){ try{herkenner.stop();}catch(e){} herkenner=null; }
+  if (!eerste) G.i++;
+  stand();
+  G.poging = 0;
+  if (G.i >= G.opgaven.length) return eindeSpel();
+  const op = G.opgaven[G.i];
+  const vorm = G.spelId==="herhaal" ? op.vorm : G.spelId;
+  ({flits:toonFlits, dictee:toonDictee, bouw:toonBouw, kies:toonKies, spreek:toonSpreek, zin:toonZin}[vorm])(op);
+}
+
+/* ---- gedeelde feedback ---- */
+function compliment(){ return kies1(COMPLIMENTEN).replace("NAAM", S.naam||"kanjer"); }
+
+function goedGedaan(extraSchelpen=2){
+  piep(true);
+  S.geoefend++;
+  if (G.poging===0){
+    G.eersteKeerGoed++; G.schelpen += extraSchelpen;
+    // in de herhaalles: woord in één keer goed → uit het foutenlijstje
+    if (G.spelId==="herhaal"){
+      const op = G.opgaven[G.i];
+      if (op && op.w) S.fouten = S.fouten.filter(f=>f!==op.w);
+    }
+  }
+  else { G.schelpen += 1; }
+  const fb = $("#spelFeedback");
+  if (fb){ fb.textContent = compliment(); fb.className = "feedback goed"; }
+  setTimeout(()=>volgende(false), 1100);
+}
+
+function foutGedaan(w, houder){
+  piep(false);
+  G.poging++;
+  if (w && !S.fouten.includes(w)){ S.fouten.push(w); bewaar(); }
+  const fb = $("#spelFeedback");
+  if (fb){ fb.textContent = kies1(TROOST); fb.className = "feedback fout"; }
+  if (w && houder){
+    houder.innerHTML = `<span class="leesbaar">${woordHTML(w)}</span>`;
+    hakEnPlak(w, houder);
+  }
+}
+
+/* ---- spel: flitslezen ---- */
+function toonFlits(op){
+  const w = op.w;
+  const afleiders = maakAfleiders(w);
+  $("#spelGebied").innerHTML = `
+    <div class="woordvak">
+      <div class="hulpwoord">⚡ Kijk goed… wat flitst er voorbij?</div>
+      <div class="leesbaar flitswoord" id="flitsW">${woordHTML(w)}</div>
+      <div class="snelheid">tempo:
+        <button id="fl1" class="${G.flitsMs>=1800?"aan":""}">🐢</button>
+        <button id="fl2" class="${G.flitsMs===1100?"aan":""}">🐇</button>
+        <button id="fl3" class="${G.flitsMs<=600?"aan":""}">🚀</button>
+        <button id="flOpnieuw">👀 nog eens</button>
+      </div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
+    </div>
+    <div class="hulpwoord" style="text-align:center;">Welk woord zag je?</div>
+    <div class="opties" id="flitsOpties"></div>`;
+  const zetTempo = ms => { G.flitsMs = ms; toonFlits(op); };
+  $("#fl1").onclick = ()=>zetTempo(1800);
+  $("#fl2").onclick = ()=>zetTempo(1100);
+  $("#fl3").onclick = ()=>zetTempo(550);
+  const flash = ()=>{
+    const el = $("#flitsW");
+    el.classList.remove("weg");
+    clearTimeout(flitsTimer);
+    flitsTimer = setTimeout(()=>el.classList.add("weg"), G.flitsMs);
+  };
+  $("#flOpnieuw").onclick = ()=>{ G.poging++; flash(); };
+  flash();
+  const opts = $("#flitsOpties");
+  husselen([w, ...afleiders]).forEach(kandidaat=>{
+    const b = document.createElement("button");
+    b.innerHTML = woordHTML(kandidaat);
+    b.onclick = ()=>{
+      if (plat(kandidaat)===plat(w)){ b.classList.add("goedantw"); goedGedaan(); }
+      else {
+        b.classList.add("foutantw");
+        foutGedaan(w, null);
+        $("#flitsW").classList.remove("weg");
+        [...opts.children].forEach(k=>{ if(k.textContent===plat(w)) k.classList.add("goedantw"); });
+        zeg(plat(w));
+      }
+    };
+    opts.appendChild(b);
+  });
+}
+
+// afleiders: andere woorden van het eiland + woorden met 1 klank verschil
+function maakAfleiders(w){
+  const alle = (G.ei.woorden||[]).filter(x=>plat(x)!==plat(w));
+  const zelfde = alle.filter(x=>chunks(x).length===chunks(w).length);
+  const pool = husselen(zelfde.length>=3 ? zelfde : alle);
+  const uit = pool.slice(0,3);
+  while (uit.length<3){
+    const ch = chunks(w).slice();
+    const i = Math.floor(Math.random()*ch.length);
+    const anders = isKlinker(ch[i]) ? kies1(["a","o","ee","oo","ui","oe"]) : kies1(["b","d","p","t","s","k","r"]);
+    if (anders!==ch[i]){ ch[i]=anders; const nieuw=ch.join("-"); if(!uit.includes(nieuw) && plat(nieuw)!==plat(w)) uit.push(nieuw); }
+  }
+  return uit;
+}
+
+/* ---- spel: luister & typ (dictee) ---- */
+function toonDictee(op){
+  const w = op.w;
+  $("#spelGebied").innerHTML = `
+    <div class="woordvak">
+      <div class="hulpwoord">🎧 Luister en typ het woord. Denk aan alle klanken!</div>
+      <button class="blauw" id="dictHoor">🔊 zeg het nog eens</button>
+      <input class="dictee" id="dictIn" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="typ hier…" aria-label="typ het woord dat je hoort">
+      <div id="dictHulp" aria-live="polite"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
+      <button class="primair" id="dictOk">✅ klaar</button>
+    </div>`;
+  const inp = $("#dictIn");
+  $("#dictHoor").onclick = ()=>zeg(plat(w));
+  setTimeout(()=>{ zeg(plat(w)); inp.focus(); }, 250);
+  const controleer = ()=>{
+    const t = inp.value.trim().toLowerCase();
+    if (!t) return;
+    if (t === plat(w)){
+      goedGedaan();
+      inp.disabled = true;
+    } else {
+      foutGedaan(w, $("#dictHulp"));
+      inp.value = "";
+      inp.placeholder = "typ het goede woord over…";
+      inp.focus();
+    }
+  };
+  $("#dictOk").onclick = controleer;
+  inp.addEventListener("keydown", e=>{ if(e.key==="Enter") controleer(); });
+}
+
+/* ---- spel: woordbouwer ---- */
+function toonBouw(op){
+  const w = op.w;
+  const stukken = husselen(chunks(w).map((c,i)=>({c,i})));
+  let gelegd = [];
+  $("#spelGebied").innerHTML = `
+    <div class="woordvak">
+      <div class="hulpwoord">🧩 Bouw het woord met de klank-stenen.</div>
+      <button class="blauw" id="bouwHoor">🔊 welk woord?</button>
+      <div class="bouwvak leesbaar" id="bouwVak"></div>
+      <div class="tegels" id="bouwTegels"></div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
+      <button id="bouwWis">🧹 opnieuw</button>
+    </div>`;
+  $("#bouwHoor").onclick = ()=>zeg(plat(w));
+  setTimeout(()=>zeg(plat(w)), 250);
+  const vak = $("#bouwVak"), tegelrij = $("#bouwTegels");
+  stukken.forEach((st,idx)=>{
+    const b = document.createElement("button");
+    b.className = "tegel" + (isKlinker(st.c)?" kl":"");
+    b.textContent = st.c;
+    b.onclick = ()=>{
+      if (b.classList.contains("op")) return;
+      b.classList.add("op");
+      gelegd.push({...st, knop:b});
+      vak.innerHTML = gelegd.map(g=>`<span class="chunk${isKlinker(g.c)?" kl":""}">${g.c}</span>`).join("");
+      if (gelegd.length === chunks(w).length){
+        const gebouwd = gelegd.map(g=>g.c).join("-");
+        if (plat(gebouwd) === plat(w)){ goedGedaan(3); }
+        else {
+          foutGedaan(w, null);
+          zeg(plat(w));
+          setTimeout(()=>{ gelegd=[]; vak.innerHTML=""; $$("#bouwTegels .tegel").forEach(t=>t.classList.remove("op")); }, 900);
+        }
+      }
+    };
+    tegelrij.appendChild(b);
+  });
+  $("#bouwWis").onclick = ()=>{ gelegd=[]; vak.innerHTML=""; $$("#bouwTegels .tegel").forEach(t=>t.classList.remove("op")); };
+}
+
+/* ---- spel: kies het woord (luisteren → lezen) ---- */
+function toonKies(op){
+  const w = op.w;
+  $("#spelGebied").innerHTML = `
+    <div class="woordvak">
+      <div class="hulpwoord">👂 Luister… welk woord hoor je?</div>
+      <button class="blauw knopgroot" id="kiesHoor">🔊 luister</button>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
+    </div>
+    <div class="opties" id="kiesOpties"></div>`;
+  $("#kiesHoor").onclick = ()=>zeg(plat(w));
+  setTimeout(()=>zeg(plat(w)), 250);
+  const opts = $("#kiesOpties");
+  husselen([w, ...maakAfleiders(w)]).forEach(kandidaat=>{
+    const b = document.createElement("button");
+    b.innerHTML = woordHTML(kandidaat);
+    b.onclick = ()=>{
+      if (plat(kandidaat)===plat(w)){ b.classList.add("goedantw"); goedGedaan(); }
+      else { b.classList.add("foutantw"); foutGedaan(w, null); zeg(plat(w)); }
+    };
+    opts.appendChild(b);
+  });
+}
+
+/* ---- spel: zeg het na (spraakherkenning) ---- */
+function toonSpreek(op){
+  const w = op.w;
+  $("#spelGebied").innerHTML = `
+    <div class="woordvak">
+      <div class="hulpwoord">🎤 Lees het woord hardop als je op de microfoon drukt.</div>
+      <div class="leesbaar" id="spreekW">${woordHTML(w)}</div>
+      <button class="blauw" id="spreekHoor">🔊 voorbeeld</button>
+      <button class="paars knopgroot" id="spreekMic">🎤 druk & spreek</button>
+      <div class="mic-hint" id="spreekHint">De microfoon luistert alleen als jij op de knop drukt.</div>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
+      <button class="stil verborgen" id="spreekToch">👍 ik heb het goed gezegd</button>
+    </div>`;
+  $("#spreekHoor").onclick = ()=>zeg(plat(w));
+  let missers = 0;
+  $("#spreekMic").onclick = ()=>{
+    if (!Herkenning) return;
+    if (herkenner){ try{ herkenner.stop(); }catch(e){} herkenner = null; }
+    try{
+      herkenner = new Herkenning();
+      herkenner.lang = "nl-NL";
+      herkenner.maxAlternatives = 4;
+      $("#spreekHint").textContent = "🔴 Kiko luistert… zeg het woord!";
+      herkenner.onresult = ev=>{
+        const gehoord = [...ev.results[0]].map(r=>r.transcript.toLowerCase().trim());
+        $("#spreekHint").textContent = `Kiko hoorde: "${gehoord[0]}"`;
+        if (gehoord.some(g=>g.includes(plat(w)))){ goedGedaan(3); }
+        else {
+          missers++; foutGedaan(w, null); zeg(plat(w));
+          if (missers>=2) $("#spreekToch").classList.remove("verborgen");
+        }
+      };
+      herkenner.onerror = ()=>{ $("#spreekHint").textContent = "Hmm, de microfoon deed het niet. Probeer nog eens!"; missers++; if(missers>=2) $("#spreekToch").classList.remove("verborgen"); };
+      herkenner.start();
+    }catch(e){ $("#spreekToch").classList.remove("verborgen"); }
+  };
+  $("#spreekToch").onclick = ()=>goedGedaan(2);
+}
+
+/* ---- spel: zinnen lezen ---- */
+function toonZin(op){
+  const z = op.zin;
+  $("#spelGebied").innerHTML = `
+    <div class="woordvak">
+      <div class="hulpwoord">📖 Lees de zin. Druk op 🔊 als je hulp wilt.</div>
+      <div class="leesbaar" style="font-size:calc(var(--lees-grootte) * .8);">${z.z}</div>
+      <button class="blauw" id="zinHoor">🔊 lees voor</button>
+      <div class="feedback" id="spelFeedback" aria-live="polite"></div>
+    </div>
+    <div class="hulpwoord" style="text-align:center;font-size:17px;font-weight:800;">${z.v}</div>
+    <div class="opties" id="zinOpties" style="grid-template-columns:1fr;"></div>`;
+  $("#zinHoor").onclick = ()=>zeg(z.z, Math.max(55, S.instel.tempo-15));
+  const opts = $("#zinOpties");
+  husselen(z.o.map((tekst,i)=>({tekst, goed:i===z.a}))).forEach(o=>{
+    const b = document.createElement("button");
+    b.style.fontSize = "20px";
+    b.textContent = o.tekst;
+    b.onclick = ()=>{
+      if (o.goed){ b.classList.add("goedantw"); goedGedaan(3); }
+      else { b.classList.add("foutantw"); foutGedaan(null, null); zeg(z.z, Math.max(55,S.instel.tempo-15)); }
+    };
+    opts.appendChild(b);
+  });
+}
+
+/* ---- einde van een spel ---- */
+function eindeSpel(){
+  const totaal = G.opgaven.length;
+  const pct = Math.round(G.eersteKeerGoed/totaal*100);
+  S.schelpen += G.schelpen;
+  if (pct === 100){ S.schelpen += 5; }
+  S.geoefend = S.geoefend||0;
+  // beste score bewaren
+  if (G.spelId!=="herhaal"){
+    const sleutel = G.ei.id+":"+G.spelId;
+    if (pct > (S.best[sleutel]||0)) S.best[sleutel] = pct;
+  }
+  werkStreakBij();
+  bewaar(); toonMunten();
+
+  $("#eindEmoji").textContent = pct===100 ? "🏆" : pct>=80 ? "🎉" : pct>=50 ? "💪" : "🦜";
+  $("#eindTitel").textContent = pct===100 ? "WAUW! Alles goed!" : pct>=80 ? "Super gedaan!" : pct>=50 ? "Lekker geoefend!" : "Goed geprobeerd!";
+  $("#eindScore").textContent = `Je had ${G.eersteKeerGoed} van de ${totaal} in één keer goed (${pct}%). ${pct>=80?"⭐ Ster verdiend!":""}`;
+  $("#eindSchelpen").innerHTML = `Je verdiende <b>🐚 ${G.schelpen + (pct===100?5:0)}</b> schelpen!` + (pct===100?" (met 5 bonus-schelpen! 🎁)":"");
+  $("#eindMop").innerHTML = `<b>🦜 Kiko's mop van deze ronde:</b><br>${kies1(MOPPEN)}`;
+  if (pct>=80) confetti();
+  piep(true);
+  const dit = {eiIdx:G.eiIdx, spelId:G.spelId};
+  $("#eindNogEens").onclick = ()=>{ dit.spelId==="herhaal" ? startHerhaal() : startSpel(dit.eiIdx, dit.spelId); };
+  ga("einde");
+  toonHome(); // ververst kaart op de achtergrond
+}
+
+/* ------------------------- winkel ------------------------- */
+function toonWinkel(){
+  toonMunten();
+  const scene = $("#mijnEiland");
+  scene.innerHTML = '<div class="zonnetje">☀️</div>';
+  S.gekocht.forEach(id=>{
+    const it = WINKEL.find(w=>w.id===id);
+    if (!it) return;
+    const s = document.createElement("span");
+    s.className = "item";
+    s.style.left = it.x+"%"; s.style.top = it.y+"%";
+    s.style.animationDelay = (Math.random()*2)+"s";
+    s.textContent = it.em;
+    scene.appendChild(s);
+  });
+  const lijst = $("#winkelLijst");
+  lijst.innerHTML = "";
+  WINKEL.forEach(it=>{
+    const heeft = S.gekocht.includes(it.id);
+    const d = document.createElement("div");
+    d.className = "waar" + (heeft?" gekocht":"");
+    d.innerHTML = `<span class="em">${it.em}</span><span class="naam">${it.naam}</span>` +
+      (heeft ? `<span style="color:var(--groen-d);font-weight:800;">✔️ van jou!</span>`
+             : `<button class="geel" ${S.schelpen<it.prijs?"disabled":""}>🐚 ${it.prijs}</button>`);
+    if (!heeft){
+      d.querySelector("button").onclick = ()=>{
+        if (S.schelpen < it.prijs) return;
+        S.schelpen -= it.prijs;
+        S.gekocht.push(it.id);
+        bewaar(); piep(true); confetti(); toonWinkel();
+        zeg(`Gefeliciteerd! Jouw eiland heeft nu een ${it.naam}.`);
+      };
+    }
+    lijst.appendChild(d);
+  });
+  ga("winkel");
+}
+
+/* ------------------------- instellingen ------------------------- */
+function pasInstellingenToe(){
+  const i = S.instel;
+  document.documentElement.style.setProperty("--lees-grootte", i.grootte+"px");
+  document.documentElement.style.setProperty("--lees-spatie", (i.spatie/100)+"em");
+  document.documentElement.style.setProperty("--lees-dikte", i.dikte);
+  document.body.classList.toggle("font-comic", i.font==="comic");
+  document.body.classList.toggle("font-gewoon", i.font==="gewoon");
+  document.body.classList.toggle("klinkers-aan", !!i.klinkers);
+}
+function toonInstellingen(){
+  const i = S.instel;
+  $("#voorbeeldWoord").innerHTML = woordHTML("p-a-p-e-g-aai") + " &nbsp; " + woordHTML("s-t-r-a-n-d");
+  $("#regelGrootte").value = i.grootte; $("#lblGrootte").textContent = i.grootte+"px";
+  $("#regelSpatie").value = i.spatie;   $("#lblSpatie").textContent = (i.spatie/100)+"em";
+  $("#regelDikte").value = i.dikte;     $("#lblDikte").textContent = i.dikte;
+  $("#regelTempo").value = i.tempo;     $("#lblTempo").textContent = (i.tempo/100)+"×";
+  $$("#fontKeuzes button").forEach(b=>b.classList.toggle("aan", b.dataset.font===i.font));
+  $$("#klinkerKeuzes button").forEach(b=>b.classList.toggle("aan", (b.dataset.kl==="aan")===!!i.klinkers));
+  ga("instellingen");
+}
+
+/* ------------------------- naam ------------------------- */
+function vraagNaam(){
+  $("#naamSluier").classList.remove("verborgen");
+  $("#naamInvoer").value = S.naam||"";
+  setTimeout(()=>$("#naamInvoer").focus(), 100);
+}
+$("#naamOk").onclick = ()=>{
+  const n = $("#naamInvoer").value.trim();
+  S.naam = n || "matroos";
+  bewaar();
+  $("#naamSluier").classList.add("verborgen");
+  zeg(`Ahoi ${S.naam}! Welkom op Taaleiland!`);
+  toonHome();
+};
+$("#naamInvoer") && $("#naamInvoer").addEventListener("keydown", e=>{ if(e.key==="Enter") $("#naamOk").click(); });
+
+/* ------------------------- events ------------------------- */
+$("#knopWinkel").onclick = toonWinkel;
+$("#knopHerhaal").onclick = startHerhaal;
+$("#knopInstellingen").onclick = toonInstellingen;
+$("#terugVanEiland").onclick = ()=>{ toonHome(); ga("home"); };
+$("#terugVanWinkel").onclick = ()=>{ toonHome(); ga("home"); };
+$("#terugVanInstellingen").onclick = ()=>{ toonHome(); ga("home"); };
+$("#stopSpel").onclick = ()=>{ clearTimeout(flitsTimer); toonHome(); ga("home"); };
+$("#eindTerug").onclick = ()=>{ toonHome(); ga("home"); };
+
+$("#regelGrootte").oninput = e=>{ S.instel.grootte=+e.target.value; pasInstellingenToe(); $("#lblGrootte").textContent=S.instel.grootte+"px"; bewaar(); };
+$("#regelSpatie").oninput  = e=>{ S.instel.spatie=+e.target.value; pasInstellingenToe(); $("#lblSpatie").textContent=(S.instel.spatie/100)+"em"; bewaar(); };
+$("#regelDikte").oninput   = e=>{ S.instel.dikte=+e.target.value; pasInstellingenToe(); $("#lblDikte").textContent=S.instel.dikte; bewaar(); };
+$("#regelTempo").oninput   = e=>{ S.instel.tempo=+e.target.value; $("#lblTempo").textContent=(S.instel.tempo/100)+"×"; bewaar(); zeg("zo klink ik"); };
+$$("#fontKeuzes button").forEach(b=>b.onclick = ()=>{ S.instel.font=b.dataset.font; pasInstellingenToe(); bewaar(); toonInstellingen(); });
+$$("#klinkerKeuzes button").forEach(b=>b.onclick = ()=>{ S.instel.klinkers = b.dataset.kl==="aan"; pasInstellingenToe(); bewaar(); toonInstellingen(); });
+$("#knopNaam").onclick = vraagNaam;
+$("#knopReset").onclick = ()=>{
+  if (confirm("Weet je zeker dat je ALLES opnieuw wilt beginnen? Je schelpen en eilanden gaan dan weg.")){
+    localStorage.removeItem(OPSLAG); location.reload();
+  }
+};
+
+/* ------------------------- start ------------------------- */
+laad();
+pasInstellingenToe();
+toonHome();
+if (!S.naam) vraagNaam();
+</script>
+</body>
+</html>
