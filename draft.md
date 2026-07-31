@@ -1,38 +1,70 @@
-Doelgroep: basisschool kinderen van groep 4-6
+## Doelgroep
+basisschool kinderen van groep 4-6
 met moeite met Nederlandse Taal
 zoals spelling en lezen.
 
-Doel: Oefenen met taal op gestructureerde en
+## Doel
+Oefenen met taal op gestructureerde en
 leuke manier.
 
-Mechanisms (non echaustive):
-Web Speech API
-variable/color fonts
-Font styling zoals cursief, color, letterspatiëring
-Interactieve elementen / begeleiding
-gamification / spaarelementen / visualisatie
-mk, km, mkm, mmk, kmk, mkkm, kkkm
-mmmm woorden woordlijsten en klanken.
-Thema's
-herhaling en progressie zichtbaar.
-losse woorden en korte zinnen / tekstjes
-localstorage / webapp / browser
+## Mechanisms (non echaustive)
+    Web Speech API
+    variable/color fonts
+    Font styling zoals cursief, color, letterspatiëring
+    Interactieve elementen / begeleiding
+    gamification / spaarelementen / visualisatie
+    mk, km, mkm, mmk, kmk, mkkm, kkkm
+    mmmm woorden woordlijsten en klanken.
+    Thema's
+    herhaling en progressie zichtbaar.
+    losse woorden en korte zinnen / tekstjes
+    localstorage / webapp / browser
 
-Attention for (non echaustive):
-niveau doelgroep
-uitdagen doelgroep
-Interreses doelgroep
-Leuk houden bij via humor / grapjes
-positieve feedback
-bewezen wetenschappelijke methode aanleren taal
-Nederlandse taal, i.c.m. leeftijd en dyslexie.
-not too childish themed.
+## Attention for (non echaustive)
+    niveau doelgroep
+    uitdagen doelgroep
+    Interreses doelgroep
+    Leuk houden bij via humor / grapjes
+    positieve feedback
+    bewezen wetenschappelijke methode aanleren taal
+    Nederlandse taal, i.c.m. leeftijd en dyslexie.
+    not too childish themed.
+    mechanismes die aansluiten bij thema, bijv:
+    - Woordplakken, planken maken voor brug
+    - Woordhakken, door bos heen hakken
 
 
-Narative:
+## Narative
 - Arriving at new Island to discover things pregresively (kid likely not very much enjoying usual language tasks and homework, but this is a fresh start and not more if the same, if they recognize stuff, good, quickly move on, if not, no problem and (re)discover).
 - Eiland kaart met gebieden als modules/levels, strand, bos, berg, vulkaan, etc, ook zee, en schip als module, en later 2e/3e eiland.
 
+
+
+## Invariants
+- 100% AVG/Privacy complaint. didactiek naar software zonder de valkuilen die software juist introduceert. Vraag nooit naam, leeftijd, foto of iets identificeerbaars van het kind. Geen tracking, analytics of advertentie-SDK's — dat is waar edu-apps meestal de fout in gaan. 
+
+## Gebieden / Modules / Zones
+    Grot, Vulkaan, Schip, Strand, Bos, Berg, zee, startkamp, bloementuin
+
+## Visueel, audio, animatie
+https://kenney.nl/assets/nature-kit
+https://kenney.nl/assets/survival-kit
+https://kenney.nl/assets/pirate-kit
+https://kenney.nl/assets/modular-cave-kit
+
+https://poly.pizza/m/dwSigTeSMCo
+
+https://quaternius.com/packs/animatedfish.html
+https://quaternius.com/packs/ships.html
+
+https://kenney.nl/assets/cube-pets
+
+https://kenney.nl/assets/interface-sounds
+https://kenney.nl/assets/impact-sounds
+https://kenney.nl/assets/ui-audio
+
+
+## Didaktieke uitgangspunten
 **Wel doen**
 
 - **Maak de game-mechaniek het leren zelf.** Beste voorbeelden (DragonBox, Duolingo's betere delen): de puzzel *is* de wiskunde. Slechtste: quiz beantwoorden → muntje → poppetje aankleden. Dat heet "chocolate-covered broccoli."
@@ -68,30 +100,4 @@ Voor taal in groep 4–6 (7–10 jaar) verschuift het beeld: dit is precies de f
 
 - *Duo-lezen / voor-koor-door*: eerst voorlezen door de begeleider, dan samen, dan alleen. Het model gaat vooraf aan het zelf doen.
 - *Wisselrijtjes*: rijtjes woorden die maar één letter verschillen (kip–kap–kop) op tempo lezen.
-
-Vuistregel: elke goede oefening laat het kind **klanken hardop verwoorden, koppelt die aan letters, en geeft directe feedback**. Elke slechte oefening leunt op raden, visueel onthouden of stil zelfstandig werk.
-
-Invariants:
-- 100% AVG/Privacy complaint. didactiek naar software zonder de valkuilen die software juist introduceert. Vraag nooit naam, leeftijd, foto of iets identificeerbaars van het kind. Geen tracking, analytics of advertentie-SDK's — dat is waar edu-apps meestal de fout in gaan. 
-
-Grot, Vulkaan, Schip, Strand, Bos, Berg, zee, startkamp, bloementuin
-
-https://kenney.nl/assets/nature-kit
-https://kenney.nl/assets/survival-kit
-https://kenney.nl/assets/pirate-kit
-https://kenney.nl/assets/modular-cave-kit
-
-https://poly.pizza/m/dwSigTeSMCo
-
-https://quaternius.com/packs/animatedfish.html
-https://quaternius.com/packs/ships.html
-
-https://kenney.nl/assets/cube-pets
-
-https://kenney.nl/assets/interface-sounds
-https://kenney.nl/assets/impact-sounds
-https://kenney.nl/assets/ui-audio
-
-Woordhakken
-Woordplakken, planken maken voor brug
 
