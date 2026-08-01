@@ -57,7 +57,7 @@ Het is los van de app — `index.html` heeft dit niet nodig.
 |---|---|
 | `preview/kenney-kits.html` | Catalogus van **307 modellen** uit de zeven Kenney-kits, genummerd en doorzoekbaar. Twee weergaves: **per thema** (oppakken & bedienen, groen, vlaggen & borden, kisten, gereedschap, rotsen, muren & daken — dwars door de kits heen) en **per kit**. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
 | `preview/specimens-ai3d.html` | Losse three.js-studie (vuurtoren en luchtballon), volledig in code gebouwd. |
-| `preview/kits/<kit>/` | De echte `.glb`-modellen uit de officiële downloads van kenney.nl, met `Textures/colormap.png` en `LICENSE.txt` per kit. Het is een selectie: modellen die niet bij Taaleiland passen (sneeuwblokken, kasteel- en stadsmuren, wegdelen, daken, personages, wapens) zijn eruit gehaald. |
+| `preview/kits/<kit>/` | De `.glb`-modellen uit de officiële downloads van kenney.nl, met `Textures/colormap.png` en `LICENSE.txt` per kit. Het is een selectie: modellen die niet bij Taaleiland passen (sneeuwblokken, kasteel- en stadsmuren, wegdelen, daken, personages, wapens) zijn eruit gehaald. De geometrie is verder ongewijzigd op één ding na: de **schaal is genormaliseerd**, zie hieronder. |
 | `preview/vendor/` | three.js r128 + GLTFLoader, meegeleverd zodat de pagina zonder internet werkt. |
 
 De catalogus laadt `.glb`-bestanden, en dat blokkeert de browser vanaf `file://`. Start dus even een servertje:
@@ -79,6 +79,24 @@ Alle zeven zijn **CC0** — vrij te gebruiken, ook commercieel; naamsvermelding 
 Nummering: in de themaweergave staat de kitcode voor het nummer — `SU` Survival, `PI` Pirate,
 `CA` Modular Cave, `FO` Mini Forest, `TO` Fantasy Town, `PL` Platformer, `DU` Mini Dungeon.
 `PL35` is dus model 35 van de Platformer Kit, in beide weergaves hetzelfde nummer.
+
+### Genormaliseerde schaal
+
+Elke kit kwam met zijn eigen wereldeenheid: dezelfde kist was 0,27 units hoog in Survival en
+1,15 in Pirate. Dat is met `tools/normaliseer-modellen.mjs` rechtgetrokken, zodat **één
+wereldunit één rastertegel is** en modellen uit verschillende kits naast elkaar kunnen staan.
+De factor is per kit in de bestanden gebakken (Survival ×2, Pirate ×0,4, Modular Cave ×0,25,
+de rest ×1); alleen posities, node-translaties en translatie-animaties zijn geschaald.
+
+```sh
+node tools/normaliseer-modellen.mjs          # bak de schaal in
+node tools/normaliseer-modellen.mjs --toon   # laat zien wat er zou gebeuren
+```
+
+Het script is idempotent — genormaliseerde bestanden dragen een merkteken in `asset.extras`
+en worden overgeslagen, dus een verse download van kenney.nl kun je er zo doorheen halen.
+De redenering en de metingen staan in [`model-normalisatie.md`](model-normalisatie.md), samen
+met de suggesties die nog openstaan (oorsprong, sampler, materialen, naamgeving, gewicht).
 
 ## Privacy
 Er wordt niets verstuurd of opgeslagen buiten de browser. De microfoon wordt

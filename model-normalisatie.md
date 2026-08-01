@@ -8,6 +8,10 @@ gemeten aan de bestanden zelf, en wat de normalisatie zou moeten doen.
 Alle metingen komen uit de geleverde `.glb`'s: bounding boxes na toepassing van de
 node-transforms, plus de glTF-JSON (materialen, samplers, node-structuur).
 
+> **Stand van zaken:** N1 en N2 zijn uitgevoerd — de schaal is met
+> `tools/normaliseer-modellen.mjs` in de bestanden gebakken. De metingen in §1 hieronder zijn
+> die van vóór die ingreep; ze laten zien waar de factoren vandaan komen. N3 t/m N12 staan open.
+
 ---
 
 ## 1. Schaal — het grootste probleem
@@ -51,6 +55,11 @@ tuinhekjes (0,38–0,40); pirate `crate` is een platte kist (0,31) tegenover een
 cave `ladder` 0,72 tegenover 1,00 elders — die is bij de grot met het oog te controleren, want
 de Cave Kit is de enige met twéé rastermaten (4 en 8) en dus de enige waar één factor kan wringen.
 
+Uitgevoerd door `tools/normaliseer-modellen.mjs`. Na afloop gemeten: de rasters van alle zeven
+kits liggen op 1,0 (Cave op 1,0/2,0, wat zijn dubbele rastermaat is), de mediane voetafdruk
+loopt van 0,95 tot 1,12 — behalve Platformer op 0,64, en dat klopt: die kit bestaat voor een
+groot deel uit munten, sleutels en harten, terwijl zijn tegels wél op 1,0 liggen.
+
 **Suggestie N2 — schrijf de factor in het bestand, niet in de code.** Twee opties:
 
 - *Bakken:* één keer met een script (gltf-transform) alle posities schalen en opnieuw wegschrijven.
@@ -62,6 +71,11 @@ de Cave Kit is de enige met twéé rastermaten (4 en 8) en dus de enige waar é�
 Bakken heeft de voorkeur. Wat je in geen geval moet doen is de factor in de app-code zetten
 (`if kit === 'pirate' scale 0.4`) — dat is precies de kennis die je één keer wilt vastleggen.
 
+Het is bakken geworden. Het script raakt alleen posities, node-translaties en de translatie-tracks
+van de zeven geanimeerde modellen aan; rotaties, node-scales, UV's, normalen en materialen blijven
+zoals ze waren. Genormaliseerde bestanden dragen een merkteken in `asset.extras`, zodat een tweede
+keer draaien niets dubbel schaalt en een verse Kenney-download er zo doorheen kan.
+
 ## 2. Oorsprong en oriëntatie
 
 Goed nieuws: dit is grotendeels al in orde. 286 van de 307 modellen staan met hun onderkant
@@ -70,21 +84,26 @@ op y = 0.
 **Suggestie N3 — zet de 15 zakkers op de grond.** Deze modellen hebben hun oorsprong niet op
 de voet, wat betekent dat "plaats op de vloer" ze half door de vloer duwt:
 
-| Model | miny | hoogte |
-|---|---:|---:|
-| fantasy-town `windmill` | −1,56 | 3,11 |
-| fantasy-town `watermill`, `watermill-wide` | −0,90 | 1,80 |
-| mini-forest `rocks-high` | −0,50 | 1,00 |
-| platformer `saw` | −0,40 | 0,79 |
-| pirate `cannon-ball` | −0,34 | 0,67 |
-| survival `tree-log` | −0,11 | 0,28 |
-| mini-forest `weapon-arrow` | −0,06 | 0,12 |
-| fantasy-town `roof-*` (7 stuks) | −0,02 … −0,05 | ~0,7 |
+Maten na de schaalnormalisatie:
 
-De eerste vier zijn geen slordigheid maar bedoeld ingegraven (de molen heeft een fundering, het
-zaagblad zit half in de vloer). Toch is één regel beter dan twee: **onderkant op y = 0, en wie
-ingegraven wil staan zakt in de scène**. Anders moet je per model onthouden welke conventie geldt.
-De zeven daken (−0,02) zijn overlap voor de naad, die laat je met rust.
+| Model | miny | hoogte | |
+|---|---:|---:|---|
+| fantasy-town `windmill` | −1,557 | 3,113 | precies het midden |
+| fantasy-town `watermill`, `watermill-wide` | −0,899 | 1,799 | precies het midden |
+| mini-forest `rocks-high` | −0,500 | 1,000 | precies het midden |
+| platformer `saw` | −0,397 | 0,794 | precies het midden |
+| survival `tree-log` | −0,211 | 0,554 | |
+| pirate `cannon-ball` | −0,134 | 0,268 | precies het midden |
+| mini-forest `weapon-arrow` | −0,059 | 0,119 | precies het midden |
+| fantasy-town `roof-*` (6 stuks) | −0,022 … −0,045 | ~0,7 | |
+
+Zeven van de acht hebben hun oorsprong **exact op het geometrische midden**, tot op de
+laatste decimaal. Dat is dus geen "bedoeld ingegraven" maar een tweede conventie: een handvol
+modellen is center-origin waar de andere 292 base-origin zijn. Eén regel is beter dan twee —
+**onderkant op y = 0, en wie ingegraven wil staan zakt in de scène** — maar let bij `saw` en
+`cannon-ball` op: daar ís het midden functioneel, het is het draaipunt. Die twee moeten na
+verplaatsing om een verschoven punt roteren, of ze houden hun huidige oorsprong met een
+aantekening erbij. De zes daken (−0,02 … −0,05) zijn overlap voor de naad, die laat je met rust.
 
 **Suggestie N4 — leg de XZ-conventie vast, verplaats hem niet.** 58 modellen staan uit het
 XZ-midden, maar dat is bijna allemaal Fantasy Town-vakwerk dat op de *rand* van zijn 1×1-cel
@@ -196,12 +215,12 @@ hij nodig heeft. De `zone`-velden staan al in `manifest.js` — nu nog als losse
 
 Als het in stappen moet, dan zo — van "breekt de scène" naar "kost prestaties":
 
-1. **N1/N2** schaal bakken. Zonder dit kun je geen twee kits in één scène zetten.
+1. ~~**N1/N2** schaal bakken. Zonder dit kun je geen twee kits in één scène zetten.~~ **Gedaan.**
 2. **N3** de vijftien zakkers op de grond, **N4** de celrand-conventie opschrijven.
 3. **N5** sampler op NEAREST + CLAMP, **N6** `doubleSided` uit. Beide een script van een paar regels.
 4. **N9/N10** sleutel en `kind` in het manifest; daarna kunnen de regexen uit `kenney-kits.html`.
 5. **N12** manifest per zone, **N11** compressie in de build.
 6. **N8** atlas samenvoegen — alleen als de draw calls echt knellen.
 
-Stap 1 t/m 3 zijn één `gltf-transform`-script over alle 307 bestanden, met de factortabel als
-enige handmatige invoer. De rest is manifestwerk.
+Stap 2 en 3 passen in hetzelfde script als stap 1 (`tools/normaliseer-modellen.mjs`), dat de
+307 bestanden al in- en uitleest. De rest is manifestwerk.
