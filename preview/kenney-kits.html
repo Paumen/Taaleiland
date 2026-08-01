@@ -147,8 +147,10 @@ const CODE = {'survival-kit':'SU', 'pirate-kit':'PI', 'modular-cave-kit':'CA', '
 /* thema's lopen dwars door de kits heen — een model hoort bij hoogstens één ervan */
 const GROUPS = [
   {id:'g-pakken', short:'oppakken', name:'Oppakken &amp; bedienen',
-   hint:'munten, sleutels, sterren, harten, pijlen, hendel, slot, veer',
-   test:function(n){ return /(^|-)(coins?|keys?|stars?|hearts?|gems?|jewels?|arrows?|levers?|locks?|springs?)($|-)/.test(n); }},
+   hint:'munten, sleutels, sterren, harten, hendel, slot, veer, pijl',
+   /* de pijl van de boogschutter blijft hier; de pijlbórden staan bij de borden */
+   test:function(n){ return n === 'weapon-arrow' ||
+     /(^|-)(coins?|keys?|stars?|hearts?|gems?|jewels?|levers?|locks?|springs?)($|-)/.test(n); }},
   {id:'g-groen', short:'groen', name:'Gras, bomen, bloemen &amp; planten',
    hint:'ook stammen, stronken en paddenstoelen; terreinblokken met een grastop blijven bij hun kit',
    test:function(n){ return !/^(block|rock)-/.test(n) &&
@@ -156,7 +158,13 @@ const GROUPS = [
   {id:'g-vlaggen', short:'vlaggen', name:'Vlaggen &amp; banieren', hint:'',
    test:function(n){ return /(^|-)(flags?|banners?|pennants?)($|-)/.test(n); }},
   {id:'g-kisten', short:'kisten', name:'Kisten, kratten &amp; vaten', hint:'',
-   test:function(n){ return /(^|-)(chests?|crates?|barrels?|box(es)?)($|-)/.test(n); }}
+   test:function(n){ return /(^|-)(chests?|crates?|barrels?|box(es)?)($|-)/.test(n); }},
+  {id:'g-borden', short:'borden', name:'Borden &amp; wegwijzers',
+   hint:'wegwijzers, een bord en de twee pijlborden',
+   test:function(n){ return /(^|-)(signs?|signposts?|arrows?)($|-)/.test(n); }},
+  {id:'g-tools', short:'gereedschap', name:'Gereedschap',
+   hint:'handgereedschap; de werkbanken blijven bij hun kit',
+   test:function(n){ return /^tool-/.test(n) || /(^|-)saws?($|-)/.test(n); }}
 ];
 const GRID = {};
 
