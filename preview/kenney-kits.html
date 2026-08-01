@@ -22,6 +22,11 @@
   .bar a{font-size:8px;color:var(--faint);text-decoration:none;border:1px solid var(--rule);border-radius:2px;padding:3px 5px;letter-spacing:.02em}
   .bar a:hover{color:var(--ink);border-color:var(--ink)}
   .bar a b{font-weight:500;color:var(--mark)}
+  .bar button{font-family:inherit;font-size:8px;font-weight:300;letter-spacing:.02em;color:var(--faint);background:transparent;border:1px solid var(--rule);border-radius:2px;padding:3px 6px;cursor:pointer}
+  .bar button.on{color:var(--paper);background:var(--ink);border-color:var(--ink);font-weight:500}
+  .bar .sep{width:1px;align-self:stretch;background:var(--rule);margin:0 3px}
+  body:not(.theme) .bar a.jt,body.theme .bar a.jk{display:none}
+  body:not(.theme) #view-theme,body.theme #view-kit{display:none}
   #q{font-family:inherit;font-size:8px;font-weight:300;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2px;padding:4px 6px;width:150px;margin-left:auto}
   #q:focus{outline:none;border-color:var(--ink)}
   #count{font-size:8px;color:var(--faint);font-weight:300;letter-spacing:.02em}
@@ -69,11 +74,14 @@
   </div>
 
   <div class="bar" id="nav">
+    <button id="m-theme" class="on">per thema</button><button id="m-kit">per kit</button>
+    <span class="sep"></span>
     <input id="q" type="search" placeholder="zoek model of kit…" autocomplete="off" spellcheck="false">
   </div>
   <div id="count"></div>
 
-  <div id="sections"></div>
+  <div id="view-theme"></div>
+  <div id="view-kit"></div>
 
   <footer>
     Alle zeven kits zijn <strong>CC0</strong> — vrij te gebruiken, ook commercieel, naamsvermelding gewaardeerd maar niet verplicht.
@@ -125,52 +133,120 @@ cam.lookAt(0, 0.02, 0);
 
 /* ---------- page ---------- */
 
-const sections = document.getElementById('sections');
+const viewKit = document.getElementById('view-kit');
+const viewTheme = document.getElementById('view-theme');
 const nav = document.getElementById('nav');
 const q = document.getElementById('q');
 const counter = document.getElementById('count');
 const cells = [];
 let total = 0;
 
+const CODE = {'survival-kit':'SU', 'pirate-kit':'PI', 'modular-cave-kit':'CA', 'mini-forest':'FO',
+              'fantasy-town-kit':'TO', 'platformer-kit':'PL', 'mini-dungeon':'DU'};
+
+/* thema's lopen dwars door de kits heen — een model hoort bij hoogstens één ervan */
+const GROUPS = [
+  {id:'g-pakken', short:'pakken', name:'Munten, sleutels, sterren &amp; harten',
+   hint:'de dingen die je oppakt',
+   test:function(n){ return /(^|-)(coin|key|star|heart|gem|jewel)($|-)/.test(n); }},
+  {id:'g-groen', short:'groen', name:'Gras, bomen, planten &amp; stammen',
+   hint:'losse begroeiing; terreinblokken met een grastop blijven bij hun kit',
+   test:function(n){ return !/^(block|rock)-/.test(n) &&
+     /(^|-)(grass|tree|plant|flower|log|trunk|palm|leaf|leaves|bush)($|-)/.test(n); }},
+  {id:'g-vlaggen', short:'vlaggen', name:'Vlaggen &amp; banieren', hint:'',
+   test:function(n){ return /(^|-)(flag|banner|pennant)($|-)/.test(n); }},
+  {id:'g-kisten', short:'kisten', name:'Kisten, kratten &amp; vaten', hint:'',
+   test:function(n){ return /(^|-)(chest|crate|barrel|box)($|-)/.test(n); }}
+];
+const GRID = {};
+
+function head(html){ const d = document.createElement('div'); d.className = 'kit'; d.innerHTML = html; return d; }
+function grid(){ const d = document.createElement('div'); d.className = 'grid'; return d; }
+function jump(cls, href, label, n){
+  const a = document.createElement('a');
+  a.className = cls;
+  a.href = href;
+  a.innerHTML = label + ' <b>' + n + '</b>';
+  nav.insertBefore(a, q);
+}
+function kitHead(kit, n, suffix){
+  return head('<h2><a href="' + kit.url + '">' + kit.name + '</a></h2>' +
+    '<span class="n">' + n + (suffix || '') + ' · CC0</span><span class="z">→ ' + kit.zone + '</span>');
+}
+
+/* de vakjes zelf: elk kent zijn kitnummer en zijn thema */
 KITS.forEach(function(kit){
   total += kit.models.length;
+  kit.code = CODE[kit.slug] || kit.slug.slice(0, 2).toUpperCase();
+  const pad = Math.max(2, String(kit.models.length).length);
+  kit.cells = kit.models.map(function(name, i){
+    const fig = document.createElement('figure');
+    const el = document.createElement('div');
+    el.className = 'view';
+    const cap = document.createElement('figcaption');
+    cap.innerHTML = '<span class="no"></span><span class="nm" title="' + name + '.glb">' + name + '</span>';
+    fig.appendChild(el);
+    fig.appendChild(cap);
+    const no = ('0000' + (i+1)).slice(-pad);
+    const g = GROUPS.filter(function(G){ return G.test(name); })[0];
+    const c = {fig:fig, el:el, no:cap.firstChild, kit:kit, name:name, group:g ? g.id : null,
+               numKit:no, numTheme:kit.code + no,
+               hay:(kit.name + ' ' + kit.slug + ' ' + name + ' ' + (g ? g.short : '')).toLowerCase(),
+               obj:null, state:0, rot:0.35 + (i % 7)*0.12};
+    cells.push(c);
+    return c;
+  });
+});
 
-  const jump = document.createElement('a');
-  jump.href = '#' + kit.slug;
-  jump.innerHTML = kit.name + ' <b>' + kit.models.length + '</b>';
-  nav.insertBefore(jump, q);
-
+/* per kit */
+KITS.forEach(function(kit){
+  jump('jk', '#' + kit.slug, kit.name, kit.models.length);
   const sec = document.createElement('section');
   sec.id = kit.slug;
-  const head = document.createElement('div');
-  head.className = 'kit';
-  head.innerHTML = '<h2><a href="' + kit.url + '">' + kit.name + '</a></h2>' +
-    '<span class="n">' + kit.models.length + ' modellen · CC0</span>' +
-    '<span class="z">→ ' + kit.zone + '</span>';
-  sec.appendChild(head);
-
-  const grid = document.createElement('div');
-  grid.className = 'grid';
-  const pad = String(kit.models.length).length;
-
-  kit.models.forEach(function(name, i){
-    const fig = document.createElement('figure');
-    const view = document.createElement('div');
-    view.className = 'view';
-    const cap = document.createElement('figcaption');
-    const no = String(i+1);
-    cap.innerHTML = '<span class="no">' + ('0000' + no).slice(-Math.max(2, pad)) + '</span>' +
-                    '<span class="nm" title="' + name + '.glb">' + name + '</span>';
-    fig.appendChild(view);
-    fig.appendChild(cap);
-    grid.appendChild(fig);
-    cells.push({fig:fig, el:view, kit:kit, name:name, hay:(kit.name + ' ' + kit.slug + ' ' + name).toLowerCase(),
-                obj:null, state:0, rot:0.35 + (i % 7)*0.12});
-  });
-
-  sec.appendChild(grid);
-  sections.appendChild(sec);
+  sec.appendChild(kitHead(kit, kit.models.length, ' modellen'));
+  kit.gridKit = grid();
+  sec.appendChild(kit.gridKit);
+  viewKit.appendChild(sec);
 });
+
+/* per thema, met daarna wat nergens in past — nog steeds per kit */
+GROUPS.forEach(function(G){
+  const n = cells.filter(function(c){ return c.group === G.id; }).length;
+  if(!n) return;
+  jump('jt', '#' + G.id, G.short, n);
+  const sec = document.createElement('section');
+  sec.id = G.id;
+  sec.appendChild(head('<h2>' + G.name + '</h2><span class="n">' + n + ' modellen</span>' +
+    (G.hint ? '<span class="z">' + G.hint + '</span>' : '')));
+  GRID[G.id] = grid();
+  sec.appendChild(GRID[G.id]);
+  viewTheme.appendChild(sec);
+});
+KITS.forEach(function(kit){
+  const n = kit.cells.filter(function(c){ return !c.group; }).length;
+  if(!n) return;
+  const sec = document.createElement('section');
+  sec.id = 'rest-' + kit.slug;
+  sec.appendChild(kitHead(kit, n, ' overige modellen'));
+  kit.gridRest = grid();
+  sec.appendChild(kit.gridRest);
+  viewTheme.appendChild(sec);
+});
+
+/* wisselen verplaatst de vakjes; wat al geladen is blijft geladen */
+function mode(theme){
+  document.body.classList.toggle('theme', theme);
+  document.getElementById('m-theme').classList.toggle('on', theme);
+  document.getElementById('m-kit').classList.toggle('on', !theme);
+  for(let i = 0; i < cells.length; i++){
+    const c = cells[i];
+    c.no.textContent = theme ? c.numTheme : c.numKit;
+    (theme ? (c.group ? GRID[c.group] : c.kit.gridRest) : c.kit.gridKit).appendChild(c.fig);
+  }
+}
+document.getElementById('m-theme').addEventListener('click', function(){ mode(true); });
+document.getElementById('m-kit').addEventListener('click', function(){ mode(false); });
+mode(true);
 
 counter.textContent = total + ' modellen';
 document.getElementById('tot').textContent = total;

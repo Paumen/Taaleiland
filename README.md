@@ -55,7 +55,7 @@ Het is los van de app — `index.html` heeft dit niet nodig.
 
 | Bestand | Wat het is |
 |---|---|
-| `preview/kenney-kits.html` | Catalogus van **362 modellen** uit de zeven Kenney-kits, per kit genummerd en doorzoekbaar. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
+| `preview/kenney-kits.html` | Catalogus van **362 modellen** uit de zeven Kenney-kits, genummerd en doorzoekbaar. Twee weergaves: **per thema** (munten/sleutels/sterren/harten, groen, vlaggen, kisten — dwars door de kits heen) en **per kit**. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
 | `preview/specimens-ai3d.html` | Losse three.js-studie (vuurtoren en luchtballon), volledig in code gebouwd. |
 | `preview/kits/<kit>/` | De echte `.glb`-modellen uit de officiële downloads van kenney.nl, met `Textures/colormap.png` en `LICENSE.txt` per kit. Het is een selectie: modellen die niet bij Taaleiland passen (sneeuwblokken, kasteel- en stadsmuren, wegdelen, daken, personages, wapens) zijn eruit gehaald. |
 | `preview/vendor/` | three.js r128 + GLTFLoader, meegeleverd zodat de pagina zonder internet werkt. |
@@ -75,6 +75,10 @@ Kits (aantal in gebruik / in de originele kit): [Survival](https://kenney.nl/ass
 [Platformer](https://kenney.nl/assets/platformer-kit) 79/153 ·
 [Mini Dungeon](https://kenney.nl/assets/mini-dungeon) 24/30.
 Alle zeven zijn **CC0** — vrij te gebruiken, ook commercieel; naamsvermelding gewaardeerd maar niet verplicht.
+
+Nummering: in de themaweergave staat de kitcode voor het nummer — `SU` Survival, `PI` Pirate,
+`CA` Modular Cave, `FO` Mini Forest, `TO` Fantasy Town, `PL` Platformer, `DU` Mini Dungeon.
+`PL35` is dus model 35 van de Platformer Kit, in beide weergaves hetzelfde nummer.
 
 ## Privacy
 Er wordt niets verstuurd of opgeslagen buiten de browser. De microfoon wordt
