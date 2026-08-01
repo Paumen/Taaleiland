@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kenney-bouwdozen — alle 564 modellen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Martian+Mono:wght@300;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#E7E9E3;--ink:#181B17;--faint:#767C71;--rule:#C3C8BC;--mark:#2E3C86}
+  *{box-sizing:border-box}
+  html{background:var(--paper);color:var(--ink)}
+  body{margin:0;background:transparent;font-family:"Martian Mono",ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+  #gl{position:fixed;inset:0;width:100%;height:100%;z-index:-1;display:block;pointer-events:none}
+  main{max-width:1080px;margin:0 auto;padding:14px 12px 40px}
+  h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em;margin:0}
+  header p{margin:3px 0 0;font-size:8.5px;line-height:1.6;color:var(--faint);letter-spacing:.02em;font-weight:300;max-width:56em}
+  header a{color:var(--faint)}
+
+  .bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 2px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+  .bar a{font-size:8px;color:var(--faint);text-decoration:none;border:1px solid var(--rule);border-radius:2px;padding:3px 5px;letter-spacing:.02em}
+  .bar a:hover{color:var(--ink);border-color:var(--ink)}
+  .bar a b{font-weight:500;color:var(--mark)}
+  #q{font-family:inherit;font-size:8px;font-weight:300;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2px;padding:4px 6px;width:150px;margin-left:auto}
+  #q:focus{outline:none;border-color:var(--ink)}
+  #count{font-size:8px;color:var(--faint);font-weight:300;letter-spacing:.02em}
+
+  section{padding-top:16px}
+  .kit{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;border-top:1px solid var(--rule);padding-top:7px}
+  .kit h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:13px;letter-spacing:-.01em;margin:0}
+  .kit h2 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+  .kit h2 a:hover{border-bottom-color:var(--ink)}
+  .kit .n{font-size:8px;color:var(--mark);font-weight:500;letter-spacing:.04em}
+  .kit .z{font-size:8px;color:var(--faint);font-weight:300;letter-spacing:.02em}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:4px 8px;margin-top:8px}
+  figure{margin:0;padding:0 0 6px}
+  figure.off{display:none}
+  .view{aspect-ratio:1/1;width:100%;border-radius:2px}
+  figcaption{display:flex;gap:4px;align-items:baseline;margin-top:-1px}
+  .no{font-size:7.5px;font-weight:500;color:var(--rule);letter-spacing:.02em;flex:none;transition:color .25s}
+  figure.ready .no{color:var(--mark)}
+  .nm{font-size:7.5px;font-weight:300;color:var(--faint);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  #warn{display:none;margin:10px 0;padding:7px 9px;border:1px solid var(--rule);border-left:3px solid #B2413A;font-size:8px;line-height:1.7;color:var(--faint);font-weight:300}
+  #warn code{color:var(--ink);font-weight:500}
+  footer{border-top:1px solid var(--rule);margin-top:24px;padding-top:7px;font-size:7.5px;color:var(--faint);font-weight:300;line-height:1.7}
+  footer a{color:var(--faint)}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<main>
+  <header>
+    <h1>Zeven bouwdozen, 564 modellen</h1>
+    <p>Alle modellen uit de zeven Kenney-kits die in <em>draft.md</em> genoemd staan, één voor één genummerd.
+       Elk model is de echte <code>.glb</code> uit de kit, geladen uit <code>preview/kits/</code> — geschaald naar dezelfde
+       omhullende bol, dus onderlinge groottes zeggen hier niets. Alles CC0 via <a href="https://kenney.nl/assets">kenney.nl</a>.</p>
+  </header>
+
+  <div id="warn">
+    Modellen laden niet vanaf <code>file://</code> — de browser blokkeert dat. Start even een servertje in de repo:
+    <code>python3 -m http.server 8080</code> en open dan <code>http://localhost:8080/preview/kenney-kits.html</code>.
+  </div>
+
+  <div class="bar" id="nav">
+    <input id="q" type="search" placeholder="zoek model of kit…" autocomplete="off" spellcheck="false">
+  </div>
+  <div id="count"></div>
+
+  <div id="sections"></div>
+
+  <footer>
+    Alle zeven kits zijn <strong>CC0</strong> — vrij te gebruiken, ook commercieel, naamsvermelding gewaardeerd maar niet verplicht.
+    De licentietekst per kit staat in <code>preview/kits/&lt;kit&gt;/LICENSE.txt</code>.
+    Modellen zijn ongewijzigd overgenomen uit de officiële downloads van <a href="https://kenney.nl/assets">kenney.nl</a>;
+    alleen de map <code>Models/GLB format</code> is meegenomen (met bijbehorende <code>Textures/colormap.png</code>).
+    Eén WebGL-context tekent alle vakjes; er wordt alleen geladen en getekend wat in beeld staat.
+  </footer>
+</main>
+
+<script src="kits/manifest.js"></script>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script>
+(function(){
+const KITS = window.KENNEY_KITS || [];
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* from file:// the browser refuses to XHR the .glb next to this page; once the branch
+   is on main, jsDelivr serves the same files with permissive CORS. */
+const LOCAL = location.protocol !== 'file:';
+const BASE = LOCAL ? 'kits/' : 'https://cdn.jsdelivr.net/gh/Paumen/Taaleiland@main/preview/kits/';
+
+const canvas = document.getElementById('gl');
+const renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setClearAlpha(0);
+renderer.setScissorTest(true);
+
+function col(hex){ return new THREE.Color(hex).convertSRGBToLinear(); }
+
+/* one scene, one camera, one holder — each visible cell is swapped in for its draw call */
+const scene = new THREE.Scene();
+scene.add(new THREE.HemisphereLight(col('#E4EDF2'), col('#6E6A5E'), 1.0));
+scene.add(new THREE.AmbientLight(col('#DCE4EC'), 0.25));
+const key = new THREE.DirectionalLight(col('#FFF6E8'), 1.15);
+key.position.set(2.6, 4.0, 2.4);
+scene.add(key);
+const fill = new THREE.DirectionalLight(col('#C7D6E8'), 0.35);
+fill.position.set(-2.2, 1.2, -2.6);
+scene.add(fill);
+const holder = new THREE.Group();
+scene.add(holder);
+
+const cam = new THREE.PerspectiveCamera(30, 1, 0.01, 40);
+cam.position.set(0, 0.95, 1.78);
+cam.lookAt(0, 0.02, 0);
+
+/* ---------- page ---------- */
+
+const sections = document.getElementById('sections');
+const nav = document.getElementById('nav');
+const q = document.getElementById('q');
+const counter = document.getElementById('count');
+const cells = [];
+let total = 0;
+
+KITS.forEach(function(kit){
+  total += kit.models.length;
+
+  const jump = document.createElement('a');
+  jump.href = '#' + kit.slug;
+  jump.innerHTML = kit.name + ' <b>' + kit.models.length + '</b>';
+  nav.insertBefore(jump, q);
+
+  const sec = document.createElement('section');
+  sec.id = kit.slug;
+  const head = document.createElement('div');
+  head.className = 'kit';
+  head.innerHTML = '<h2><a href="' + kit.url + '">' + kit.name + '</a></h2>' +
+    '<span class="n">' + kit.models.length + ' modellen · CC0</span>' +
+    '<span class="z">→ ' + kit.zone + '</span>';
+  sec.appendChild(head);
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+  const pad = String(kit.models.length).length;
+
+  kit.models.forEach(function(name, i){
+    const fig = document.createElement('figure');
+    const view = document.createElement('div');
+    view.className = 'view';
+    const cap = document.createElement('figcaption');
+    const no = String(i+1);
+    cap.innerHTML = '<span class="no">' + ('0000' + no).slice(-Math.max(2, pad)) + '</span>' +
+                    '<span class="nm" title="' + name + '.glb">' + name + '</span>';
+    fig.appendChild(view);
+    fig.appendChild(cap);
+    grid.appendChild(fig);
+    cells.push({fig:fig, el:view, kit:kit, name:name, hay:(kit.name + ' ' + kit.slug + ' ' + name).toLowerCase(),
+                obj:null, state:0, rot:0.35 + (i % 7)*0.12});
+  });
+
+  sec.appendChild(grid);
+  sections.appendChild(sec);
+});
+
+counter.textContent = total + ' modellen';
+
+/* ---------- loading ---------- */
+
+const loader = new THREE.GLTFLoader();
+const queue = [];
+let active = 0, failed = 0, warned = false, sorted = -1e9;
+
+/* whatever is on screen right now jumps the queue — otherwise scrolling to the last
+   kit means waiting behind every model you scrolled past */
+function reorder(){
+  const mid = window.innerHeight/2;
+  for(let i = 0; i < queue.length; i++){
+    const r = queue[i].el.getBoundingClientRect();
+    queue[i].d = Math.abs(r.top + r.height/2 - mid);
+  }
+  queue.sort(function(a, b){ return a.d - b.d; });
+}
+
+function pump(){
+  const now = performance.now();
+  if(queue.length > 8 && now - sorted > 220){ sorted = now; reorder(); }
+  while(active < 6 && queue.length){
+    const c = queue.shift();
+    if(c.state !== 1) continue;
+    active++;
+    load(c);
+  }
+}
+
+function load(c){
+  loader.load(BASE + c.kit.slug + '/' + encodeURIComponent(c.name) + '.glb', function(gltf){
+    const root = gltf.scene;
+    root.traverse(function(o){
+      if(o.isMesh && o.material && o.material.map){
+        o.material.map.magFilter = THREE.NearestFilter;
+        o.material.map.anisotropy = 4;
+      }
+    });
+    /* normalise on the bounding sphere so nothing clips while it turns */
+    const box = new THREE.Box3().setFromObject(root);
+    const sph = box.getBoundingSphere(new THREE.Sphere());
+    const k = sph.radius > 0 ? 0.5/sph.radius : 1;
+    root.scale.setScalar(k);
+    root.position.set(-sph.center.x*k, -sph.center.y*k, -sph.center.z*k);
+    const wrap = new THREE.Group();
+    wrap.add(root);
+    c.obj = wrap;
+    c.state = 2;
+    c.fig.classList.add('ready');
+    active--;
+    pump();
+  }, undefined, function(){
+    c.state = 3;
+    active--;
+    failed++;
+    if(failed > 3 && !warned){ warned = true; document.getElementById('warn').style.display = 'block'; }
+    pump();
+  });
+}
+
+const io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(!e.isIntersecting) return;
+    const c = e.target.__cell;
+    io.unobserve(e.target);
+    if(c.state === 0){ c.state = 1; queue.push(c); }
+  });
+  pump();
+}, {rootMargin: '420px 0px'});
+
+cells.forEach(function(c){ c.el.__cell = c; io.observe(c.el); });
+
+/* ---------- filter ---------- */
+
+let filterTimer = 0;
+q.addEventListener('input', function(){
+  clearTimeout(filterTimer);
+  filterTimer = setTimeout(function(){
+    const t = q.value.trim().toLowerCase();
+    let shown = 0;
+    for(let i = 0; i < cells.length; i++){
+      const c = cells[i], hit = !t || c.hay.indexOf(t) >= 0;
+      c.fig.classList.toggle('off', !hit);
+      if(hit) shown++;
+    }
+    counter.textContent = t ? shown + ' van ' + total + ' modellen' : total + ' modellen';
+  }, 90);
+});
+
+/* ---------- draw ---------- */
+
+function resize(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if(canvas.width !== Math.floor(w*renderer.getPixelRatio()) || canvas.height !== Math.floor(h*renderer.getPixelRatio())){
+    renderer.setSize(w, h, false);
+  }
+}
+
+let last = 0;
+function frame(now){
+  resize();
+  const dt = Math.min((now - last)/1000 || 0, 0.05);
+  last = now;
+  const H = renderer.domElement.clientHeight;
+  for(let i = 0; i < cells.length; i++){
+    const c = cells[i];
+    if(c.state !== 2) continue;
+    const r = c.el.getBoundingClientRect();
+    if(r.bottom < -8 || r.top > H + 8 || r.width === 0) continue;
+    const bottom = H - r.bottom;
+    renderer.setViewport(r.left, bottom, r.width, r.height);
+    renderer.setScissor(r.left, bottom, r.width, r.height);
+    cam.aspect = r.width/r.height;
+    cam.updateProjectionMatrix();
+    if(!REDUCED) c.rot += dt*0.42;
+    holder.rotation.y = c.rot;
+    holder.add(c.obj);
+    renderer.render(scene, cam);
+    holder.remove(c.obj);
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

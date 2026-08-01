@@ -48,6 +48,34 @@ Er is geen server, account of installatie nodig; de voortgang wordt bewaard in
 - **Single page / single file**, geen dependencies behalve Google Fonts
   (zonder internet valt de app terug op een systeemlettertype).
 
+## Preview: 3D-materiaal
+
+In `preview/` staat materiaal om te kiezen hoe de eilandgebieden eruit gaan zien.
+Het is los van de app — `index.html` heeft dit niet nodig.
+
+| Bestand | Wat het is |
+|---|---|
+| `preview/kenney-kits.html` | Catalogus van **alle 564 modellen** uit de zeven Kenney-kits, per kit genummerd en doorzoekbaar. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
+| `preview/specimens-ai3d.html` | Losse three.js-studie (vuurtoren en luchtballon), volledig in code gebouwd. |
+| `preview/kits/<kit>/` | De echte `.glb`-modellen uit de officiële downloads van kenney.nl, met `Textures/colormap.png` en `LICENSE.txt` per kit. |
+| `preview/vendor/` | three.js r128 + GLTFLoader, meegeleverd zodat de pagina zonder internet werkt. |
+
+De catalogus laadt `.glb`-bestanden, en dat blokkeert de browser vanaf `file://`. Start dus even een servertje:
+
+```sh
+python3 -m http.server 8080
+# open http://localhost:8080/preview/kenney-kits.html
+```
+
+Kits: [Survival](https://kenney.nl/assets/survival-kit) (80) ·
+[Pirate](https://kenney.nl/assets/pirate-kit) (72) ·
+[Modular Cave](https://kenney.nl/assets/modular-cave-kit) (40) ·
+[Mini Forest](https://kenney.nl/assets/mini-forest) (22) ·
+[Fantasy Town](https://kenney.nl/assets/fantasy-town-kit) (167) ·
+[Platformer](https://kenney.nl/assets/platformer-kit) (153) ·
+[Mini Dungeon](https://kenney.nl/assets/mini-dungeon) (30).
+Alle zeven zijn **CC0** — vrij te gebruiken, ook commercieel; naamsvermelding gewaardeerd maar niet verplicht.
+
 ## Privacy
 Er wordt niets verstuurd of opgeslagen buiten de browser. De microfoon wordt
 alleen gebruikt als het kind zelf op de microfoonknop drukt.
