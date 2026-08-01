@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kenney-bouwdozen — alle 564 modellen</title>
+<title>Kenney-bouwdozen — alle modellen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Martian+Mono:wght@300;500&display=swap" rel="stylesheet">
@@ -53,8 +53,8 @@
 <canvas id="gl"></canvas>
 <main>
   <header>
-    <h1>Zeven bouwdozen, 564 modellen</h1>
-    <p>Alle modellen uit de zeven Kenney-kits die in <em>draft.md</em> genoemd staan, één voor één genummerd.
+    <h1>Zeven bouwdozen, <span id="tot">…</span> modellen</h1>
+    <p>Een selectie uit de zeven Kenney-kits die in <em>draft.md</em> genoemd staan, één voor één genummerd.
        Elk model is de echte <code>.glb</code> uit de kit, geladen uit <code>preview/kits/</code> — geschaald naar dezelfde
        omhullende bol, dus onderlinge groottes zeggen hier niets. Alles CC0 via <a href="https://kenney.nl/assets">kenney.nl</a>.</p>
   </header>
@@ -169,6 +169,8 @@ KITS.forEach(function(kit){
 });
 
 counter.textContent = total + ' modellen';
+document.getElementById('tot').textContent = total;
+document.title = 'Kenney-bouwdozen — ' + total + ' modellen';
 
 /* ---------- loading ---------- */
 
