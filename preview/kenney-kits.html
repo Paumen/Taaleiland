@@ -146,17 +146,17 @@ const CODE = {'survival-kit':'SU', 'pirate-kit':'PI', 'modular-cave-kit':'CA', '
 
 /* thema's lopen dwars door de kits heen — een model hoort bij hoogstens één ervan */
 const GROUPS = [
-  {id:'g-pakken', short:'pakken', name:'Munten, sleutels, sterren &amp; harten',
-   hint:'de dingen die je oppakt',
-   test:function(n){ return /(^|-)(coin|key|star|heart|gem|jewel)($|-)/.test(n); }},
-  {id:'g-groen', short:'groen', name:'Gras, bomen, planten &amp; stammen',
-   hint:'losse begroeiing; terreinblokken met een grastop blijven bij hun kit',
+  {id:'g-pakken', short:'oppakken', name:'Oppakken &amp; bedienen',
+   hint:'munten, sleutels, sterren, harten, pijlen, hendel, slot, veer',
+   test:function(n){ return /(^|-)(coins?|keys?|stars?|hearts?|gems?|jewels?|arrows?|levers?|locks?|springs?)($|-)/.test(n); }},
+  {id:'g-groen', short:'groen', name:'Gras, bomen, bloemen &amp; planten',
+   hint:'ook stammen, stronken en paddenstoelen; terreinblokken met een grastop blijven bij hun kit',
    test:function(n){ return !/^(block|rock)-/.test(n) &&
-     /(^|-)(grass|tree|plant|flower|log|trunk|palm|leaf|leaves|bush)($|-)/.test(n); }},
+     /(^|-)(grass|trees?|plants?|flowers?|logs?|trunks?|palms?|leaf|leaves|bush(es)?|mushrooms?|stumps?)($|-)/.test(n); }},
   {id:'g-vlaggen', short:'vlaggen', name:'Vlaggen &amp; banieren', hint:'',
-   test:function(n){ return /(^|-)(flag|banner|pennant)($|-)/.test(n); }},
+   test:function(n){ return /(^|-)(flags?|banners?|pennants?)($|-)/.test(n); }},
   {id:'g-kisten', short:'kisten', name:'Kisten, kratten &amp; vaten', hint:'',
-   test:function(n){ return /(^|-)(chest|crate|barrel|box)($|-)/.test(n); }}
+   test:function(n){ return /(^|-)(chests?|crates?|barrels?|box(es)?)($|-)/.test(n); }}
 ];
 const GRID = {};
 

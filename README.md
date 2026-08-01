@@ -55,7 +55,7 @@ Het is los van de app — `index.html` heeft dit niet nodig.
 
 | Bestand | Wat het is |
 |---|---|
-| `preview/kenney-kits.html` | Catalogus van **362 modellen** uit de zeven Kenney-kits, genummerd en doorzoekbaar. Twee weergaves: **per thema** (munten/sleutels/sterren/harten, groen, vlaggen, kisten — dwars door de kits heen) en **per kit**. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
+| `preview/kenney-kits.html` | Catalogus van **362 modellen** uit de zeven Kenney-kits, genummerd en doorzoekbaar. Twee weergaves: **per thema** (oppakken & bedienen, groen, vlaggen, kisten — dwars door de kits heen) en **per kit**. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
 | `preview/specimens-ai3d.html` | Losse three.js-studie (vuurtoren en luchtballon), volledig in code gebouwd. |
 | `preview/kits/<kit>/` | De echte `.glb`-modellen uit de officiële downloads van kenney.nl, met `Textures/colormap.png` en `LICENSE.txt` per kit. Het is een selectie: modellen die niet bij Taaleiland passen (sneeuwblokken, kasteel- en stadsmuren, wegdelen, daken, personages, wapens) zijn eruit gehaald. |
 | `preview/vendor/` | three.js r128 + GLTFLoader, meegeleverd zodat de pagina zonder internet werkt. |
