@@ -1,0 +1,41 @@
+# Publiceert de preview-pagina's op GitHub Pages.
+# De modellenpagina komt op https://paumen.github.io/Taaleiland/preview/kenney-kits.html
+name: Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/3d-asset-normalization-jmltbc
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Site samenstellen
+        run: |
+          mkdir -p _site
+          cp -r preview _site/preview
+          printf '<!doctype html><meta http-equiv="refresh" content="0; url=preview/kenney-kits.html">' > _site/index.html
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
