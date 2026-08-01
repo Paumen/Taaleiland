@@ -1,0 +1,39 @@
+# Publiceert de preview-pagina's op GitHub Pages door de map preview/ naar de
+# tak gh-pages te duwen (GitHub publiceert die tak automatisch).
+# De modellenpagina komt op https://paumen.github.io/Taaleiland/preview/kenney-kits.html
+name: Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/3d-asset-normalization-jmltbc
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Site samenstellen en naar gh-pages duwen
+        run: |
+          mkdir -p _site
+          cp -r preview _site/preview
+          printf '<!doctype html><meta http-equiv="refresh" content="0; url=preview/kenney-kits.html">' > _site/index.html
+          touch _site/.nojekyll
+          cd _site
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Publiceer preview ($GITHUB_SHA)"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
