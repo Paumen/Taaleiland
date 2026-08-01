@@ -41,6 +41,7 @@
   figcaption{display:flex;gap:4px;align-items:baseline;margin-top:-1px}
   .no{font-size:7.5px;font-weight:500;color:var(--rule);letter-spacing:.02em;flex:none;transition:color .25s}
   figure.ready .no{color:var(--mark)}
+  figure.dead .no{color:#B2413A}
   .nm{font-size:7.5px;font-weight:300;color:var(--faint);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
   #warn{display:none;margin:10px 0;padding:7px 9px;border:1px solid var(--rule);border-left:3px solid #B2413A;font-size:8px;line-height:1.7;color:var(--faint);font-weight:300}
@@ -60,8 +61,11 @@
   </header>
 
   <div id="warn">
-    Modellen laden niet vanaf <code>file://</code> — de browser blokkeert dat. Start even een servertje in de repo:
-    <code>python3 -m http.server 8080</code> en open dan <code>http://localhost:8080/preview/kenney-kits.html</code>.
+    Een aantal modellen laadt niet, ook niet na opnieuw proberen. Twee gebruikelijke oorzaken:
+    <br>· je opent deze pagina vanaf <code>file://</code> — de browser blokkeert het laden van <code>.glb</code> dan.
+    Start een servertje in de repo: <code>python3 -m http.server 8080</code>, open <code>http://localhost:8080/preview/kenney-kits.html</code>.
+    <br>· je bekijkt hem via <code>raw.githack.com</code>, dat afknijpt bij honderden bestanden. Vervang <code>raw.</code> door
+    <code>cdn.</code> in de URL, of zet GitHub&nbsp;Pages aan.
   </div>
 
   <div class="bar" id="nav">
@@ -223,10 +227,19 @@ function load(c){
     active--;
     pump();
   }, undefined, function(){
-    c.state = 3;
     active--;
-    failed++;
-    if(failed > 3 && !warned){ warned = true; document.getElementById('warn').style.display = 'block'; }
+    c.tries = (c.tries || 0) + 1;
+    if(c.tries < 4){
+      /* een CDN knijpt af zodra er honderden bestanden tegelijk langskomen; even wachten
+         en opnieuw proberen, anders blijft het vakje voorgoed leeg */
+      c.state = 1;
+      setTimeout(function(){ queue.push(c); pump(); }, 400*c.tries*c.tries);
+    } else {
+      c.state = 3;
+      c.fig.classList.add('dead');
+      failed++;
+      if(failed > 5 && !warned){ warned = true; document.getElementById('warn').style.display = 'block'; }
+    }
     pump();
   });
 }
@@ -239,7 +252,7 @@ const io = new IntersectionObserver(function(entries){
     if(c.state === 0){ c.state = 1; queue.push(c); }
   });
   pump();
-}, {rootMargin: '420px 0px'});
+}, {rootMargin: '700px 0px'});
 
 cells.forEach(function(c){ c.el.__cell = c; io.observe(c.el); });
 

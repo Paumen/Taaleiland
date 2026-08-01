@@ -55,9 +55,9 @@ Het is los van de app — `index.html` heeft dit niet nodig.
 
 | Bestand | Wat het is |
 |---|---|
-| `preview/kenney-kits.html` | Catalogus van **411 modellen** uit de zeven Kenney-kits, per kit genummerd en doorzoekbaar. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
+| `preview/kenney-kits.html` | Catalogus van **362 modellen** uit de zeven Kenney-kits, per kit genummerd en doorzoekbaar. Draait op één WebGL-context; laadt en tekent alleen wat in beeld staat. |
 | `preview/specimens-ai3d.html` | Losse three.js-studie (vuurtoren en luchtballon), volledig in code gebouwd. |
-| `preview/kits/<kit>/` | De echte `.glb`-modellen uit de officiële downloads van kenney.nl, met `Textures/colormap.png` en `LICENSE.txt` per kit. Het is een selectie: modellen die niet bij Taaleiland passen (sneeuwblokken, kasteelmuren, wegdelen, personages, wapens) zijn eruit gehaald. |
+| `preview/kits/<kit>/` | De echte `.glb`-modellen uit de officiële downloads van kenney.nl, met `Textures/colormap.png` en `LICENSE.txt` per kit. Het is een selectie: modellen die niet bij Taaleiland passen (sneeuwblokken, kasteel- en stadsmuren, wegdelen, daken, personages, wapens) zijn eruit gehaald. |
 | `preview/vendor/` | three.js r128 + GLTFLoader, meegeleverd zodat de pagina zonder internet werkt. |
 
 De catalogus laadt `.glb`-bestanden, en dat blokkeert de browser vanaf `file://`. Start dus even een servertje:
@@ -67,11 +67,11 @@ python3 -m http.server 8080
 # open http://localhost:8080/preview/kenney-kits.html
 ```
 
-Kits (aantal in gebruik / in de originele kit): [Survival](https://kenney.nl/assets/survival-kit) 64/80 ·
+Kits (aantal in gebruik / in de originele kit): [Survival](https://kenney.nl/assets/survival-kit) 54/80 ·
 [Pirate](https://kenney.nl/assets/pirate-kit) 58/72 ·
 [Modular Cave](https://kenney.nl/assets/modular-cave-kit) 40/40 ·
-[Mini Forest](https://kenney.nl/assets/mini-forest) 22/22 ·
-[Fantasy Town](https://kenney.nl/assets/fantasy-town-kit) 124/167 ·
+[Mini Forest](https://kenney.nl/assets/mini-forest) 21/22 ·
+[Fantasy Town](https://kenney.nl/assets/fantasy-town-kit) 86/167 ·
 [Platformer](https://kenney.nl/assets/platformer-kit) 79/153 ·
 [Mini Dungeon](https://kenney.nl/assets/mini-dungeon) 24/30.
 Alle zeven zijn **CC0** — vrij te gebruiken, ook commercieel; naamsvermelding gewaardeerd maar niet verplicht.
