@@ -158,11 +158,19 @@ const GROUPS = [
    /* weapon-arrow is een pijl om te schieten, geen pijlbord — die hoort bij het gereedschap */
    test:function(n){ return !/^weapon-/.test(n) &&
      /(^|-)(flags?|banners?|pennants?|signs?|signposts?|arrows?)($|-)/.test(n); }},
-  {id:'g-kisten', short:'kisten', name:'Kisten, kratten &amp; vaten', hint:'',
-   test:function(n){ return /(^|-)(chests?|crates?|barrels?|box(es)?)($|-)/.test(n); }},
+  {id:'g-kisten', short:'kisten', name:'Kisten, kratten &amp; vaten',
+   hint:'ook flessen en de pot',
+   test:function(n){ return /(^|-)(chests?|crates?|barrels?|box(es)?|bottles?|pots?)($|-)/.test(n); }},
   {id:'g-tools', short:'gereedschap', name:'Gereedschap &amp; werkplek',
    hint:'gereedschap, werkbanken, emmer, boog en pijl',
-   test:function(n){ return /^(tool|weapon|workbench)-/.test(n) || /^(bucket|workbench|saw)$/.test(n); }}
+   test:function(n){ return /^(tool|weapon|workbench)-/.test(n) || /^(bucket|workbench|saw)$/.test(n); }},
+  {id:'g-rots', short:'rotsen', name:'Rotsen, stenen &amp; grond',
+   hint:'ook de zand- en aardeplekken',
+   test:function(n){ return /^(rocks?|stones?)($|-)/.test(n) || /^patch-(sand|dirt)/.test(n) ||
+     /^resource-stone/.test(n); }},
+  {id:'g-bouw', short:'bouwen', name:'Muren &amp; daken',
+   hint:'het houten vakwerk en alle dakdelen uit Fantasy Town',
+   test:function(n){ return /^wall-wood/.test(n) || /^roof/.test(n); }}
 ];
 const GRID = {};
 
