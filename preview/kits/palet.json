@@ -458,25 +458,6 @@
   },
   {
    "cel": [
-    9,
-    0
-   ],
-   "kleur": "#9b5345",
-   "bronnen": [
-    {
-     "kit": "mini-dungeon",
-     "cel": [
-      5,
-      3
-     ],
-     "modellen": [
-      "table"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
     10,
     0
    ],
@@ -628,6 +609,60 @@
       "platform-ramp",
       "poles",
       "sign"
+     ]
+    },
+    {
+     "kit": "mini-dungeon",
+     "cel": [
+      5,
+      3
+     ],
+     "modellen": [
+      "table"
+     ]
+    },
+    {
+     "kit": "fantasy-town-kit",
+     "cel": [
+      11,
+      3
+     ],
+     "modellen": [
+      "balcony-wall-fence",
+      "cart",
+      "cart-high",
+      "fence-gate",
+      "overhang",
+      "roof-window",
+      "wall-wood",
+      "wall-wood-arch",
+      "wall-wood-arch-top",
+      "wall-wood-block",
+      "wall-wood-block-half",
+      "wall-wood-broken",
+      "wall-wood-corner",
+      "wall-wood-corner-diagonal",
+      "wall-wood-corner-diagonal-half",
+      "wall-wood-corner-edge",
+      "wall-wood-curved",
+      "wall-wood-detail-cross",
+      "wall-wood-detail-diagonal",
+      "wall-wood-detail-horizontal",
+      "wall-wood-diagonal",
+      "wall-wood-door",
+      "wall-wood-doorway-base",
+      "wall-wood-doorway-square",
+      "wall-wood-doorway-square-wide-curved",
+      "wall-wood-half",
+      "wall-wood-rounded",
+      "wall-wood-side",
+      "wall-wood-slope",
+      "wall-wood-window-glass",
+      "wall-wood-window-round",
+      "wall-wood-window-shutters",
+      "watermill",
+      "watermill-wide",
+      "wheel"
      ]
     }
    ]
@@ -989,6 +1024,20 @@
       "tree",
       "tree-tall"
      ]
+    },
+    {
+     "kit": "fantasy-town-kit",
+     "cel": [
+      7,
+      3
+     ],
+     "modellen": [
+      "tree",
+      "tree-crooked",
+      "tree-high",
+      "tree-high-crooked",
+      "tree-high-round"
+     ]
     }
    ]
   },
@@ -1081,25 +1130,6 @@
      ],
      "modellen": [
       "fish"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    10,
-    1
-   ],
-   "kleur": "#f2bf99",
-   "bronnen": [
-    {
-     "kit": "survival-kit",
-     "cel": [
-      12,
-      3
-     ],
-     "modellen": [
-      "rock-flat-grass"
      ]
     }
    ]
@@ -1390,6 +1420,16 @@
       "cart-high",
       "windmill"
      ]
+    },
+    {
+     "kit": "survival-kit",
+     "cel": [
+      12,
+      3
+     ],
+     "modellen": [
+      "rock-flat-grass"
+     ]
     }
    ]
   },
@@ -1407,49 +1447,6 @@
       3
      ],
      "modellen": []
-    }
-   ]
-  },
-  {
-   "cel": [
-    7,
-    3
-   ],
-   "kleur": "#41a479",
-   "bronnen": [
-    {
-     "kit": "fantasy-town-kit",
-     "cel": [
-      7,
-      3
-     ],
-     "modellen": [
-      "tree",
-      "tree-crooked",
-      "tree-high",
-      "tree-high-crooked",
-      "tree-high-round"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    8,
-    3
-   ],
-   "kleur": "#c58262",
-   "bronnen": [
-    {
-     "kit": "fantasy-town-kit",
-     "cel": [
-      8,
-      3
-     ],
-     "modellen": [
-      "watermill",
-      "watermill-wide"
-     ]
     }
    ]
   },
@@ -1532,58 +1529,16 @@
       "wheel",
       "windmill"
      ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    11,
-    3
-   ],
-   "kleur": "#905743",
-   "bronnen": [
+    },
     {
      "kit": "fantasy-town-kit",
      "cel": [
-      11,
+      8,
       3
      ],
      "modellen": [
-      "balcony-wall-fence",
-      "cart",
-      "cart-high",
-      "fence-gate",
-      "overhang",
-      "roof-window",
-      "wall-wood",
-      "wall-wood-arch",
-      "wall-wood-arch-top",
-      "wall-wood-block",
-      "wall-wood-block-half",
-      "wall-wood-broken",
-      "wall-wood-corner",
-      "wall-wood-corner-diagonal",
-      "wall-wood-corner-diagonal-half",
-      "wall-wood-corner-edge",
-      "wall-wood-curved",
-      "wall-wood-detail-cross",
-      "wall-wood-detail-diagonal",
-      "wall-wood-detail-horizontal",
-      "wall-wood-diagonal",
-      "wall-wood-door",
-      "wall-wood-doorway-base",
-      "wall-wood-doorway-square",
-      "wall-wood-doorway-square-wide-curved",
-      "wall-wood-half",
-      "wall-wood-rounded",
-      "wall-wood-side",
-      "wall-wood-slope",
-      "wall-wood-window-glass",
-      "wall-wood-window-round",
-      "wall-wood-window-shutters",
       "watermill",
-      "watermill-wide",
-      "wheel"
+      "watermill-wide"
      ]
     }
    ]
