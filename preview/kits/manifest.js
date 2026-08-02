@@ -6,7 +6,6 @@ window.KENNEY_KITS = [
   "url": "https://kenney.nl/assets/survival-kit",
   "zone": "Startkamp",
   "models": [
-   "bedroll-frame",
    "bottle",
    "bottle-large",
    "bucket",
@@ -29,7 +28,6 @@ window.KENNEY_KITS = [
    "resource-planks",
    "resource-stone",
    "resource-stone-large",
-   "resource-wood",
    "rock-a",
    "rock-b",
    "rock-c",
@@ -55,7 +53,6 @@ window.KENNEY_KITS = [
    "tree-log",
    "tree-log-small",
    "tree-tall",
-   "tree-trunk",
    "workbench",
    "workbench-anvil",
    "workbench-grind"
@@ -67,7 +64,6 @@ window.KENNEY_KITS = [
   "url": "https://kenney.nl/assets/pirate-kit",
   "zone": "Zinnenzee, Schip",
   "models": [
-   "barrel",
    "boat-row-large",
    "boat-row-small",
    "bottle",
@@ -117,8 +113,7 @@ window.KENNEY_KITS = [
    "structure-platform-dock-small",
    "structure-platform-small",
    "structure-roof",
-   "tool-paddle",
-   "tool-shovel"
+   "tool-paddle"
   ]
  },
  {
@@ -243,7 +238,6 @@ window.KENNEY_KITS = [
    "stairs-wide-wood-handrail",
    "stairs-wood",
    "stairs-wood-handrail",
-   "stall-stool",
    "tree",
    "tree-crooked",
    "tree-high",
@@ -289,11 +283,6 @@ window.KENNEY_KITS = [
   "models": [
    "arrow",
    "arrows",
-   "barrel",
-   "chest",
-   "coin-bronze",
-   "coin-gold",
-   "coin-silver",
    "crate",
    "crate-strong",
    "fence-broken",
@@ -309,7 +298,6 @@ window.KENNEY_KITS = [
    "flowers-tall",
    "grass",
    "heart",
-   "key",
    "ladder",
    "ladder-broken",
    "ladder-long",
@@ -323,12 +311,10 @@ window.KENNEY_KITS = [
    "platform-ramp",
    "poles",
    "rocks",
-   "saw",
    "sign",
    "spring",
    "star",
    "stones",
-   "tree",
    "tree-pine",
    "tree-pine-small"
   ]
@@ -353,7 +339,6 @@ window.KENNEY_KITS = [
    "rocks",
    "stairs",
    "stones",
-   "table",
    "trap",
    "wall",
    "wall-half",

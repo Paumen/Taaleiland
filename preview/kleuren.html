@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eén palet — zeven kits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Martian+Mono:wght@300;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#E7E9E3;--ink:#181B17;--faint:#767C71;--rule:#C3C8BC;--mark:#2E3C86}
+  *{box-sizing:border-box}
+  html{background:var(--paper);color:var(--ink)}
+  body{margin:0;font-family:"Martian Mono",ui-monospace,monospace;-webkit-font-smoothing:antialiased}
+  main{max-width:1080px;margin:0 auto;padding:14px 12px 40px}
+  h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em;margin:0}
+  h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:13px;margin:0}
+  header p, .uitleg{margin:3px 0 0;font-size:8.5px;line-height:1.6;color:var(--faint);letter-spacing:.02em;font-weight:300;max-width:56em}
+  a{color:var(--faint)}
+  section{border-top:1px solid var(--rule);margin-top:16px;padding-top:7px}
+  .kop{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .kop .n{font-size:8px;color:var(--mark);font-weight:500;letter-spacing:.04em}
+
+  .paletvak{position:relative;display:inline-block;margin-top:8px}
+  .paletvak img{display:block;width:512px;max-width:100%;image-rendering:pixelated}
+  .paletvak .cel{position:absolute;border:1px solid #0000;cursor:default}
+  .paletvak .cel.leeg{background:repeating-linear-gradient(45deg,#E7E9E3 0 4px,#D6D9D0 4px 8px)}
+  .paletvak .cel:hover{border-color:var(--ink)}
+  .paletvak .cel.dood{pointer-events:none}
+  .paletvak .cel.weg{background:#E7E9E3d9}
+  #info{min-height:52px;margin-top:6px;font-size:8px;line-height:1.7;color:var(--faint);font-weight:300;max-width:64em}
+  #info b{color:var(--ink);font-weight:500}
+  #info .chip{display:inline-block;width:8px;height:8px;border-radius:2px;vertical-align:-1px;margin-right:3px;border:1px solid #00000022}
+
+  .oudrooster{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:8px}
+  .oud .naam{font-size:8px;font-weight:500;margin-bottom:3px}
+  .oud .naam span{color:var(--faint);font-weight:300}
+
+  table{border-collapse:collapse;margin-top:8px;font-size:8px}
+  td,th{padding:2px 8px 2px 0;text-align:left;font-weight:300;color:var(--faint);vertical-align:top}
+  th{font-weight:500;color:var(--ink);border-bottom:1px solid var(--rule)}
+  td b{color:var(--ink);font-weight:500}
+  .chip{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:-1px;margin-right:4px;border:1px solid #00000022}
+  footer{border-top:1px solid var(--rule);margin-top:24px;padding-top:7px;font-size:7.5px;color:var(--faint);font-weight:300;line-height:1.7}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Eén palet voor zeven bouwdozen</h1>
+    <p>Elke Kenney-kit kwam met een eigen <code>colormap.png</code>: zeven paletten van elk 64 kleurcellen.
+       De modellen gebruikten daarvan maar een fractie, en veel cellen waren tussen de kits (vrijwel) identiek.
+       <code>tools/consolideer-palet.mjs</code> heeft de écht gebruikte cellen samengevoegd tot dit ene gedeelde palet;
+       alle 307 <code>.glb</code>-modellen zijn omgeschreven en zien er
+       <a href="kenney-kits.html">in de modellenpreview</a> hetzelfde uit als eerst.</p>
+  </header>
+
+  <section>
+    <div class="kop"><h2>Het gedeelde palet</h2><span class="n" id="telling">…</span></div>
+    <p class="uitleg">Ga met de muis over een cel om te zien welke kits en modellen hem gebruiken.
+       Geblokte cellen zijn leeg (daar wijst geen enkel model meer naar).</p>
+    <div class="paletvak" id="nieuw"><img src="kits/colormap.png" alt="gedeeld palet"></div>
+    <div id="info">—</div>
+  </section>
+
+  <section>
+    <div class="kop"><h2>Meest &amp; minst gedeeld</h2></div>
+    <table id="tabel"></table>
+  </section>
+
+  <section>
+    <div class="kop"><h2>De zeven oude paletten</h2></div>
+    <p class="uitleg">Ter vergelijking de originele colormaps (bewaard als <code>colormap-origineel.png</code>).
+       Vervaagd = werd door geen enkel model van die kit gebruikt; dat was gemiddeld 85% van elke kaart.</p>
+    <div class="oudrooster" id="oud"></div>
+  </section>
+
+  <footer>
+    De cellen zijn 32×128&nbsp;px op een kaart van 512×512 (16×4). Samengevoegd zijn cellen met een gemiddeld
+    pixelverschil onder de drempel uit <code>preview/kits/palet.json</code>; grotwanden en daklijsten die over
+    celgrenzen heen samplen zijn als blok verplaatst. Alle kits zijn CC0 van <a href="https://kenney.nl/assets">kenney.nl</a>.
+  </footer>
+</main>
+
+<script>
+(async function(){
+const palet = await (await fetch('kits/palet.json')).json();
+const KITS = ['fantasy-town-kit','mini-dungeon','mini-forest','modular-cave-kit','pirate-kit','platformer-kit','survival-kit'];
+const KORT = {'fantasy-town-kit':'fantasy-town','mini-dungeon':'mini-dungeon','mini-forest':'mini-forest',
+  'modular-cave-kit':'modular-cave','pirate-kit':'pirate','platformer-kit':'platformer','survival-kit':'survival'};
+const perCel = new Map();
+for (const c of palet.cellen) for (let i = 0; i < (c.breedte || 1); i++) perCel.set(c.cel[1]*16 + c.cel[0] + i, c);
+document.getElementById('telling').textContent = perCel.size + ' van 64 cellen in gebruik';
+
+/* --- het nieuwe palet, met hover-uitleg --- */
+const vak = document.getElementById('nieuw');
+const info = document.getElementById('info');
+const img = vak.querySelector('img');
+function bouwCellen(){
+  const w = img.clientWidth, cw = w/16, ch = img.clientHeight/4;
+  vak.querySelectorAll('.cel').forEach(e => e.remove());
+  for (let i = 0; i < 64; i++){
+    const d = document.createElement('div');
+    d.className = 'cel' + (perCel.has(i) ? '' : ' leeg dood');
+    d.style.cssText = `left:${(i%16)*cw}px;top:${Math.floor(i/16)*ch}px;width:${cw}px;height:${ch}px`;
+    if (perCel.has(i)){
+      const c = perCel.get(i);
+      d.addEventListener('mouseenter', () => {
+        const per = c.bronnen.map(b => `<b>${KORT[b.kit]}</b> (${b.modellen.length ? b.modellen.length + ' modellen' : 'via kleurverloop'})`);
+        const mods = [...new Set(c.bronnen.flatMap(b => b.modellen))];
+        const kop = c.textuur ? `<b>${c.textuur}</b> (${c.breedte} vakjes breed)` : `<b>${c.kleur}</b> · cel ${c.cel[0]},${c.cel[1]}`;
+        info.innerHTML = `<span class="chip" style="background:${c.kleur}"></span>${kop} · ` +
+          per.join(' · ') + `<br>${mods.slice(0,14).join(', ')}${mods.length > 14 ? ` … +${mods.length-14}` : ''}`;
+      });
+    }
+    vak.appendChild(d);
+  }
+}
+img.complete ? bouwCellen() : img.addEventListener('load', bouwCellen);
+addEventListener('resize', bouwCellen);
+
+/* --- meest & minst gedeeld --- */
+const rijen = palet.cellen.map(c => ({
+  kleur: c.kleur, cel: c.cel,
+  kits: new Set(c.bronnen.map(b => b.kit)),
+  modellen: new Set(c.bronnen.flatMap(b => b.modellen)).size,
+})).sort((a, b) => b.kits.size - a.kits.size || b.modellen - a.modellen);
+const rij = r => `<tr><td><span class="chip" style="background:${r.kleur}"></span>${r.kleur}</td>` +
+  `<td><b>${r.kits.size}</b> kit${r.kits.size === 1 ? '' : 's'}</td>` +
+  `<td>${r.modellen ? `<b>${r.modellen}</b> modellen` : 'alleen via kleurverloop'}</td>` +
+  `<td>${[...r.kits].map(k => KORT[k]).join(', ')}</td></tr>`;
+document.getElementById('tabel').innerHTML =
+  '<tr><th>kleur</th><th>kits</th><th>modellen</th><th>wie</th></tr>' +
+  rijen.slice(0, 6).map(rij).join('') +
+  `<tr><td colspan="4" style="padding:4px 0;color:var(--rule)">· · ·</td></tr>` +
+  rijen.slice(-6).map(rij).join('');
+
+/* --- de oude paletten, met de gebruikte cellen scherp --- */
+const oud = document.getElementById('oud');
+for (const kit of KITS){
+  const gebruikt = new Set();
+  for (const c of palet.cellen) for (const b of c.bronnen) if (b.kit === kit) gebruikt.add(b.cel[1]*16 + b.cel[0]);
+  const d = document.createElement('div');
+  d.className = 'oud';
+  d.innerHTML = `<div class="naam">${KORT[kit]} <span>· ${gebruikt.size} van 64 cellen gebruikt</span></div>` +
+    `<div class="paletvak"><img src="kits/${kit}/Textures/colormap-origineel.png" alt="oud palet ${kit}"></div>`;
+  const pv = d.querySelector('.paletvak'), im = pv.querySelector('img');
+  const leg = () => {
+    const cw = im.clientWidth/16, ch = im.clientHeight/4;
+    pv.querySelectorAll('.cel').forEach(e => e.remove());
+    for (let i = 0; i < 64; i++){
+      if (gebruikt.has(i)) continue;
+      const c = document.createElement('div');
+      c.className = 'cel weg dood';
+      c.style.cssText = `left:${(i%16)*cw}px;top:${Math.floor(i/16)*ch}px;width:${cw}px;height:${ch}px`;
+      pv.appendChild(c);
+    }
+  };
+  im.complete ? leg() : im.addEventListener('load', leg);
+  addEventListener('resize', leg);
+  oud.appendChild(d);
+}
+})();
+</script>
+</body>
+</html>
