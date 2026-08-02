@@ -19,6 +19,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const WORTEL = join(dirname(fileURLToPath(import.meta.url)), '..');
+/* De modellen staan sinds de opsplitsing in de assets-repo Paumen/Taalei. Check die
+   repo uit en zet zijn map kits/ hier op preview/kits/ voordat je dit script draait. */
 const KITS = join(WORTEL, 'preview', 'kits');
 const TOON = process.argv.includes('--toon');
 

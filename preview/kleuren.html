@@ -59,7 +59,7 @@
     <div class="kop"><h2>Het gedeelde palet</h2><span class="n" id="telling">…</span></div>
     <p class="uitleg">Ga met de muis over een cel om te zien welke kits en modellen hem gebruiken.
        Geblokte cellen zijn leeg (daar wijst geen enkel model meer naar).</p>
-    <div class="paletvak" id="nieuw"><img src="kits/colormap.png" alt="gedeeld palet"></div>
+    <div class="paletvak" id="nieuw"><img src="https://cdn.jsdelivr.net/gh/Paumen/Taalei@main/kits/colormap.png" alt="gedeeld palet"></div>
     <div id="info">—</div>
   </section>
 
@@ -77,14 +77,17 @@
 
   <footer>
     De cellen zijn 32×128&nbsp;px op een kaart van 512×512 (16×4). Samengevoegd zijn cellen met een gemiddeld
-    pixelverschil onder de drempel uit <code>preview/kits/palet.json</code>; grotwanden en daklijsten die over
-    celgrenzen heen samplen zijn als blok verplaatst. Alle kits zijn CC0 van <a href="https://kenney.nl/assets">kenney.nl</a>.
+    pixelverschil onder de drempel uit <code>kits/palet.json</code>; grotwanden en daklijsten die over
+    celgrenzen heen samplen zijn als blok verplaatst. Alle kits zijn CC0 van <a href="https://kenney.nl/assets">kenney.nl</a>
+    en staan in de assets-repo <a href="https://github.com/Paumen/Taalei">Paumen/Taalei</a>.
   </footer>
 </main>
 
 <script>
 (async function(){
-const palet = await (await fetch('kits/palet.json')).json();
+/* palet en colormaps wonen in de assets-repo Paumen/Taalei, geserveerd via jsDelivr */
+const BASE = 'https://cdn.jsdelivr.net/gh/Paumen/Taalei@main/kits/';
+const palet = await (await fetch(BASE + 'palet.json')).json();
 const KITS = ['fantasy-town-kit','mini-dungeon','mini-forest','modular-cave-kit','pirate-kit','platformer-kit','survival-kit'];
 const KORT = {'fantasy-town-kit':'fantasy-town','mini-dungeon':'mini-dungeon','mini-forest':'mini-forest',
   'modular-cave-kit':'modular-cave','pirate-kit':'pirate','platformer-kit':'platformer','survival-kit':'survival'};
@@ -143,7 +146,7 @@ for (const kit of KITS){
   const d = document.createElement('div');
   d.className = 'oud';
   d.innerHTML = `<div class="naam">${KORT[kit]} <span>· ${gebruikt.size} van 64 cellen gebruikt</span></div>` +
-    `<div class="paletvak"><img src="kits/${kit}/Textures/colormap-origineel.png" alt="oud palet ${kit}"></div>`;
+    `<div class="paletvak"><img src="${BASE}${kit}/Textures/colormap-origineel.png" alt="oud palet ${kit}"></div>`;
   const pv = d.querySelector('.paletvak'), im = pv.querySelector('img');
   const leg = () => {
     const cw = im.clientWidth/16, ch = im.clientHeight/4;

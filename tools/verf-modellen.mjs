@@ -21,6 +21,8 @@ import { fileURLToPath } from 'node:url';
 import { inflateSync, deflateSync, crc32 } from 'node:zlib';
 
 const WORTEL = join(dirname(fileURLToPath(import.meta.url)), '..');
+/* De modellen staan sinds de opsplitsing in de assets-repo Paumen/Taalei. Check die
+   repo uit en zet zijn map kits/ hier op preview/kits/ voordat je dit script draait. */
 const KITS_MAP = join(WORTEL, 'preview', 'kits');
 const CB = 32, CH = 128, KOL = 16, RIJ = 4;
 const TOON = process.argv.includes('--toon');
