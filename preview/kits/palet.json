@@ -993,20 +993,6 @@
       "fence-gate",
       "fountain-round",
       "fountain-round-detail",
-      "rock-large",
-      "rock-small",
-      "rock-wide",
-      "roof-corner",
-      "roof-corner-inner",
-      "roof-corner-round",
-      "roof-gable-detail",
-      "roof-gable-end",
-      "roof-gable-top",
-      "roof-left",
-      "roof-right",
-      "roof-window",
-      "stairs-stone-corner",
-      "stairs-stone-round",
       "watermill",
       "watermill-wide",
       "wheel"
@@ -1085,6 +1071,7 @@
       2
      ],
      "modellen": [
+      "crate-strong",
       "spring"
      ]
     },
@@ -1236,6 +1223,19 @@
       "fountain-round",
       "fountain-round-detail",
       "pillar-wood",
+      "rock-large",
+      "rock-small",
+      "rock-wide",
+      "roof-corner",
+      "roof-corner-inner",
+      "roof-corner-round",
+      "roof-gable-detail",
+      "roof-gable-end",
+      "roof-gable-top",
+      "roof-left",
+      "roof-right",
+      "roof-window",
+      "stairs-stone-corner",
       "stairs-stone-round",
       "wall-wood-arch",
       "wall-wood-arch-top",
@@ -1282,7 +1282,6 @@
       3
      ],
      "modellen": [
-      "crate-strong",
       "lever",
       "lock",
       "rocks",
