@@ -389,6 +389,7 @@
       1
      ],
      "modellen": [
+      "flowers",
       "flowers-tall",
       "heart",
       "lever",
@@ -668,25 +669,6 @@
       "tree-log",
       "tree-log-small",
       "workbench"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    15,
-    0
-   ],
-   "kleur": "#5f74ca",
-   "bronnen": [
-    {
-     "kit": "platformer-kit",
-     "cel": [
-      7,
-      1
-     ],
-     "modellen": [
-      "flowers"
      ]
     }
    ]
