@@ -330,6 +330,20 @@
       "workbench-anvil",
       "workbench-grind"
      ]
+    },
+    {
+     "kit": "mini-dungeon",
+     "cel": [
+      3,
+      3
+     ],
+     "modellen": [
+      "barrel",
+      "chest",
+      "gate",
+      "pot",
+      "table"
+     ]
     }
    ]
   },
@@ -435,29 +449,6 @@
   },
   {
    "cel": [
-    8,
-    0
-   ],
-   "kleur": "#ca704e",
-   "bronnen": [
-    {
-     "kit": "mini-dungeon",
-     "cel": [
-      3,
-      3
-     ],
-     "modellen": [
-      "barrel",
-      "chest",
-      "gate",
-      "pot",
-      "table"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
     10,
     0
    ],
@@ -507,25 +498,6 @@
      ],
      "modellen": [
       "chest"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    11,
-    0
-   ],
-   "kleur": "#b06041",
-   "bronnen": [
-    {
-     "kit": "mini-forest",
-     "cel": [
-      0,
-      2
-     ],
-     "modellen": [
-      "building-structure"
      ]
     }
    ]
@@ -663,6 +635,16 @@
       "watermill",
       "watermill-wide",
       "wheel"
+     ]
+    },
+    {
+     "kit": "mini-forest",
+     "cel": [
+      0,
+      2
+     ],
+     "modellen": [
+      "building-structure"
      ]
     }
    ]
@@ -804,47 +786,6 @@
   },
   {
    "cel": [
-    0,
-    1
-   ],
-   "kleur": "#7a7796",
-   "bronnen": [
-    {
-     "kit": "mini-forest",
-     "cel": [
-      1,
-      3
-     ],
-     "modellen": [
-      "rocks-high",
-      "rocks-low",
-      "rocks-ramp",
-      "target"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    1,
-    1
-   ],
-   "kleur": "#76bc88",
-   "bronnen": [
-    {
-     "kit": "mini-forest",
-     "cel": [
-      2,
-      3
-     ],
-     "modellen": [
-      "patch-grass"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
     2,
     1
    ],
@@ -860,6 +801,26 @@
       "plant",
       "tree",
       "tree-high"
+     ]
+    },
+    {
+     "kit": "mini-forest",
+     "cel": [
+      2,
+      3
+     ],
+     "modellen": [
+      "patch-grass"
+     ]
+    },
+    {
+     "kit": "survival-kit",
+     "cel": [
+      0,
+      2
+     ],
+     "modellen": [
+      "rock-flat-grass"
      ]
     }
    ]
@@ -1073,44 +1034,6 @@
      ],
      "modellen": [
       "lever"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    7,
-    1
-   ],
-   "kleur": "#868ba1",
-   "bronnen": [
-    {
-     "kit": "platformer-kit",
-     "cel": [
-      14,
-      3
-     ],
-     "modellen": [
-      "crate-strong"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    8,
-    1
-   ],
-   "kleur": "#61cb8b",
-   "bronnen": [
-    {
-     "kit": "survival-kit",
-     "cel": [
-      0,
-      2
-     ],
-     "modellen": [
-      "rock-flat-grass"
      ]
     }
    ]
@@ -1628,6 +1551,29 @@
       "rock-a",
       "rock-b",
       "rock-c"
+     ]
+    },
+    {
+     "kit": "mini-forest",
+     "cel": [
+      1,
+      3
+     ],
+     "modellen": [
+      "rocks-high",
+      "rocks-low",
+      "rocks-ramp",
+      "target"
+     ]
+    },
+    {
+     "kit": "platformer-kit",
+     "cel": [
+      14,
+      3
+     ],
+     "modellen": [
+      "crate-strong"
      ]
     }
    ]

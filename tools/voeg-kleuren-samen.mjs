@@ -31,6 +31,13 @@ const SAMEN = [
   ['#c58262', '#c58161'],   // Δ7  fantasy watermolens → grote fantasy-houtkleur
   ['#f2bf99', '#f0c59d'],   // Δ7  survival-zand → fantasy-zand
   ['#41a479', '#3da679'],   // Δ7  fantasy-boomgroen → gedeeld groen (pirate/platformer/survival)
+  /* tweede ronde (Δ 8-16, subtiel maar akkoord op voor/na-renders) */
+  ['#7a7796', '#6d738a'],   // Δ10 forest-leisteen (rotsen) → gedeeld leisteen van 5 kits
+  ['#868ba1', '#6d738a'],   // Δ14 platformer crate-strong → zelfde gedeelde leisteen
+  ['#76bc88', '#6cb588'],   // Δ10 forest patch-grass → hét grasgroen
+  ['#61cb8b', '#6cb588'],   // Δ13 survival rock-flat-grass → hét grasgroen
+  ['#ca704e', '#d07b56'],   // Δ10 dungeon-hout (barrel/chest/gate/pot/table) → groot hout-bruin
+  ['#b06041', '#995a41'],   // Δ10 forest building-structure → gedeeld hout-bruin
 ];
 
 /* ---------- glb in en uit (zelfde aanpak als consolideer-palet.mjs) ---------- */
