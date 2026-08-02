@@ -37,6 +37,8 @@ import { fileURLToPath } from 'node:url';
 import { inflateSync, deflateSync, crc32 } from 'node:zlib';
 
 const WORTEL = join(dirname(fileURLToPath(import.meta.url)), '..');
+/* De modellen staan sinds de opsplitsing in de assets-repo Paumen/Taalei. Check die
+   repo uit en zet zijn map kits/ hier op preview/kits/ voordat je dit script draait. */
 const KITS_MAP = join(WORTEL, 'preview', 'kits');
 const VERSIE = 1;
 const DREMPEL = 4;      // max. gemiddeld pixelverschil om twee cellen als gelijk te zien

@@ -61,16 +61,16 @@
   <header>
     <h1>Zeven bouwdozen, <span id="tot">…</span> modellen</h1>
     <p>Een selectie uit de zeven Kenney-kits die in <em>draft.md</em> genoemd staan, één voor één genummerd.
-       Elk model is de echte <code>.glb</code> uit de kit, geladen uit <code>preview/kits/</code> — geschaald naar dezelfde
+       Elk model is de echte <code>.glb</code> uit de kit, geladen uit de assets-repo
+       <a href="https://github.com/Paumen/Taalei">Paumen/Taalei</a> — geschaald naar dezelfde
        omhullende bol, dus onderlinge groottes zeggen hier niets. Alles CC0 via <a href="https://kenney.nl/assets">kenney.nl</a>.</p>
   </header>
 
   <div id="warn">
-    Een aantal modellen laadt niet, ook niet na opnieuw proberen. Twee gebruikelijke oorzaken:
-    <br>· je opent deze pagina vanaf <code>file://</code> — de browser blokkeert het laden van <code>.glb</code> dan.
-    Start een servertje in de repo: <code>python3 -m http.server 8080</code>, open <code>http://localhost:8080/preview/kenney-kits.html</code>.
-    <br>· je bekijkt hem via <code>raw.githack.com</code>, dat afknijpt bij honderden bestanden. Vervang <code>raw.</code> door
-    <code>cdn.</code> in de URL, of zet GitHub&nbsp;Pages aan.
+    Een aantal modellen laadt niet, ook niet na opnieuw proberen. De modellen komen van jsDelivr,
+    uit de assets-repo <a href="https://github.com/Paumen/Taalei">Paumen/Taalei</a>. Twee gebruikelijke oorzaken:
+    <br>· je bent offline, of jsDelivr is onbereikbaar — deze pagina heeft de modellen niet meer naast zich staan.
+    <br>· de modellen staan nog niet op <code>main</code> van die repo; jsDelivr serveert alleen wat daar staat.
   </div>
 
   <div class="bar" id="nav">
@@ -85,7 +85,8 @@
 
   <footer>
     Alle zeven kits zijn <strong>CC0</strong> — vrij te gebruiken, ook commercieel, naamsvermelding gewaardeerd maar niet verplicht.
-    De licentietekst per kit staat in <code>preview/kits/&lt;kit&gt;/LICENSE.txt</code>.
+    De licentietekst per kit staat in <code>kits/&lt;kit&gt;/LICENSE.txt</code> in
+    <a href="https://github.com/Paumen/Taalei">Paumen/Taalei</a>.
     Modellen komen uit de officiële downloads van <a href="https://kenney.nl/assets">kenney.nl</a>;
     alleen de map <code>Models/GLB format</code> is meegenomen. De zeven aparte colormaps zijn samengevoegd
     tot <a href="kleuren.html">één gedeeld palet</a> (<code>tools/consolideer-palet.mjs</code>).
@@ -96,7 +97,7 @@
   </footer>
 </main>
 
-<script src="kits/manifest.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Paumen/Taalei@main/kits/manifest.js"></script>
 <script src="vendor/three.min.js"></script>
 <script src="vendor/GLTFLoader.js"></script>
 <script>
@@ -104,10 +105,9 @@
 const KITS = window.KENNEY_KITS || [];
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* from file:// the browser refuses to XHR the .glb next to this page; once the branch
-   is on main, jsDelivr serves the same files with permissive CORS. */
-const LOCAL = location.protocol !== 'file:';
-const BASE = LOCAL ? 'kits/' : 'https://cdn.jsdelivr.net/gh/Paumen/Taaleiland@main/preview/kits/';
+/* de modellen wonen in de assets-repo Paumen/Taalei; jsDelivr serveert ze met permissive
+   CORS, dus deze pagina werkt ook rechtstreeks vanaf file:// */
+const BASE = 'https://cdn.jsdelivr.net/gh/Paumen/Taalei@main/kits/';
 
 const canvas = document.getElementById('gl');
 const renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
