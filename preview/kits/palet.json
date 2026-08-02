@@ -8,100 +8,14 @@
     0,
     0
    ],
-   "kleur": "#bb7554",
+   "breedte": 4,
+   "kleur": "#ba7554",
+   "textuur": "rotswand (modular-cave)",
    "bronnen": [
     {
      "kit": "modular-cave-kit",
      "cel": [
       0,
-      0
-     ],
-     "modellen": [
-      "corridor",
-      "corridor-corner",
-      "corridor-end",
-      "corridor-intersection",
-      "corridor-junction",
-      "corridor-transition",
-      "corridor-wide",
-      "corridor-wide-corner",
-      "corridor-wide-end",
-      "corridor-wide-intersection",
-      "corridor-wide-junction",
-      "room-corner",
-      "room-large",
-      "room-large-variation",
-      "room-small",
-      "room-small-variation",
-      "room-wide",
-      "room-wide-variation",
-      "stairs",
-      "stairs-wide",
-      "template-corner",
-      "template-floor",
-      "template-floor-big",
-      "template-floor-detail",
-      "template-floor-detail-a"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    1,
-    0
-   ],
-   "kleur": "#c07856",
-   "bronnen": [
-    {
-     "kit": "modular-cave-kit",
-     "cel": [
-      1,
-      0
-     ],
-     "modellen": [
-      "corridor-corner",
-      "corridor-wide-corner",
-      "room-corner",
-      "room-large",
-      "room-large-variation",
-      "room-small",
-      "room-small-variation",
-      "room-wide",
-      "room-wide-variation",
-      "template-corner"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    2,
-    0
-   ],
-   "kleur": "#bd7655",
-   "bronnen": [
-    {
-     "kit": "modular-cave-kit",
-     "cel": [
-      2,
-      0
-     ],
-     "modellen": []
-    }
-   ]
-  },
-  {
-   "cel": [
-    3,
-    0
-   ],
-   "kleur": "#bc7554",
-   "bronnen": [
-    {
-     "kit": "modular-cave-kit",
-     "cel": [
-      3,
       0
      ],
      "modellen": [
@@ -333,6 +247,79 @@
       "gate",
       "pot",
       "table"
+     ]
+    },
+    {
+     "kit": "fantasy-town-kit",
+     "cel": [
+      9,
+      3
+     ],
+     "modellen": [
+      "balcony-wall",
+      "balcony-wall-fence",
+      "banner-green",
+      "banner-red",
+      "blade",
+      "cart",
+      "cart-high",
+      "fence",
+      "fence-broken",
+      "fence-curved",
+      "fence-gate",
+      "overhang",
+      "pillar-wood",
+      "planks",
+      "planks-half",
+      "planks-opening",
+      "poles",
+      "poles-horizontal",
+      "roof-gable-detail",
+      "roof-gable-end",
+      "roof-gable-top",
+      "roof-left",
+      "roof-right",
+      "roof-window",
+      "stairs-wide-wood",
+      "stairs-wide-wood-handrail",
+      "stairs-wood",
+      "stairs-wood-handrail",
+      "stall-stool",
+      "tree",
+      "tree-crooked",
+      "tree-high",
+      "tree-high-crooked",
+      "tree-high-round",
+      "wall-wood",
+      "wall-wood-arch",
+      "wall-wood-arch-top",
+      "wall-wood-block",
+      "wall-wood-block-half",
+      "wall-wood-broken",
+      "wall-wood-corner",
+      "wall-wood-corner-diagonal",
+      "wall-wood-corner-diagonal-half",
+      "wall-wood-corner-edge",
+      "wall-wood-curved",
+      "wall-wood-detail-cross",
+      "wall-wood-detail-diagonal",
+      "wall-wood-detail-horizontal",
+      "wall-wood-diagonal",
+      "wall-wood-door",
+      "wall-wood-doorway-base",
+      "wall-wood-doorway-square",
+      "wall-wood-doorway-square-wide-curved",
+      "wall-wood-half",
+      "wall-wood-rounded",
+      "wall-wood-side",
+      "wall-wood-slope",
+      "wall-wood-window-glass",
+      "wall-wood-window-round",
+      "wall-wood-window-shutters",
+      "watermill",
+      "watermill-wide",
+      "wheel",
+      "windmill"
      ]
     }
    ]
@@ -924,6 +911,17 @@
       3
      ],
      "modellen": [
+      "roof-corner",
+      "roof-corner-inner",
+      "roof-corner-round",
+      "roof-flat",
+      "roof-gable-detail",
+      "roof-gable-end",
+      "roof-gable-top",
+      "roof-left",
+      "roof-point",
+      "roof-right",
+      "roof-window",
       "tree",
       "tree-crooked",
       "tree-high",
@@ -1204,52 +1202,6 @@
   },
   {
    "cel": [
-    3,
-    3
-   ],
-   "kleur": "#3da679",
-   "bronnen": [
-    {
-     "kit": "fantasy-town-kit",
-     "cel": [
-      3,
-      3
-     ],
-     "modellen": [
-      "roof-corner",
-      "roof-corner-inner",
-      "roof-corner-round",
-      "roof-flat",
-      "roof-gable-detail",
-      "roof-gable-end",
-      "roof-gable-top",
-      "roof-left",
-      "roof-point",
-      "roof-right",
-      "roof-window"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    4,
-    3
-   ],
-   "kleur": "#eeba88",
-   "bronnen": [
-    {
-     "kit": "fantasy-town-kit",
-     "cel": [
-      4,
-      3
-     ],
-     "modellen": []
-    }
-   ]
-  },
-  {
-   "cel": [
     5,
     3
    ],
@@ -1275,116 +1227,6 @@
      ],
      "modellen": [
       "rock-flat-grass"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    6,
-    3
-   ],
-   "kleur": "#51b985",
-   "bronnen": [
-    {
-     "kit": "fantasy-town-kit",
-     "cel": [
-      6,
-      3
-     ],
-     "modellen": []
-    }
-   ]
-  },
-  {
-   "cel": [
-    9,
-    3
-   ],
-   "kleur": "#d07b56",
-   "bronnen": [
-    {
-     "kit": "fantasy-town-kit",
-     "cel": [
-      9,
-      3
-     ],
-     "modellen": [
-      "balcony-wall",
-      "balcony-wall-fence",
-      "banner-green",
-      "banner-red",
-      "blade",
-      "cart",
-      "cart-high",
-      "fence",
-      "fence-broken",
-      "fence-curved",
-      "fence-gate",
-      "overhang",
-      "pillar-wood",
-      "planks",
-      "planks-half",
-      "planks-opening",
-      "poles",
-      "poles-horizontal",
-      "roof-gable-detail",
-      "roof-gable-end",
-      "roof-gable-top",
-      "roof-left",
-      "roof-right",
-      "roof-window",
-      "stairs-wide-wood",
-      "stairs-wide-wood-handrail",
-      "stairs-wood",
-      "stairs-wood-handrail",
-      "stall-stool",
-      "tree",
-      "tree-crooked",
-      "tree-high",
-      "tree-high-crooked",
-      "tree-high-round",
-      "wall-wood",
-      "wall-wood-arch",
-      "wall-wood-arch-top",
-      "wall-wood-block",
-      "wall-wood-block-half",
-      "wall-wood-broken",
-      "wall-wood-corner",
-      "wall-wood-corner-diagonal",
-      "wall-wood-corner-diagonal-half",
-      "wall-wood-corner-edge",
-      "wall-wood-curved",
-      "wall-wood-detail-cross",
-      "wall-wood-detail-diagonal",
-      "wall-wood-detail-horizontal",
-      "wall-wood-diagonal",
-      "wall-wood-door",
-      "wall-wood-doorway-base",
-      "wall-wood-doorway-square",
-      "wall-wood-doorway-square-wide-curved",
-      "wall-wood-half",
-      "wall-wood-rounded",
-      "wall-wood-side",
-      "wall-wood-slope",
-      "wall-wood-window-glass",
-      "wall-wood-window-round",
-      "wall-wood-window-shutters",
-      "watermill",
-      "watermill-wide",
-      "wheel",
-      "windmill"
-     ]
-    },
-    {
-     "kit": "fantasy-town-kit",
-     "cel": [
-      8,
-      3
-     ],
-     "modellen": [
-      "watermill",
-      "watermill-wide"
      ]
     }
    ]

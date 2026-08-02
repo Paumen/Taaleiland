@@ -88,8 +88,9 @@ const palet = await (await fetch('kits/palet.json')).json();
 const KITS = ['fantasy-town-kit','mini-dungeon','mini-forest','modular-cave-kit','pirate-kit','platformer-kit','survival-kit'];
 const KORT = {'fantasy-town-kit':'fantasy-town','mini-dungeon':'mini-dungeon','mini-forest':'mini-forest',
   'modular-cave-kit':'modular-cave','pirate-kit':'pirate','platformer-kit':'platformer','survival-kit':'survival'};
-const perCel = new Map(palet.cellen.map(c => [c.cel[1]*16 + c.cel[0], c]));
-document.getElementById('telling').textContent = palet.cellen.length + ' van 64 cellen in gebruik';
+const perCel = new Map();
+for (const c of palet.cellen) for (let i = 0; i < (c.breedte || 1); i++) perCel.set(c.cel[1]*16 + c.cel[0] + i, c);
+document.getElementById('telling').textContent = perCel.size + ' van 64 cellen in gebruik';
 
 /* --- het nieuwe palet, met hover-uitleg --- */
 const vak = document.getElementById('nieuw');
@@ -107,7 +108,8 @@ function bouwCellen(){
       d.addEventListener('mouseenter', () => {
         const per = c.bronnen.map(b => `<b>${KORT[b.kit]}</b> (${b.modellen.length ? b.modellen.length + ' modellen' : 'via kleurverloop'})`);
         const mods = [...new Set(c.bronnen.flatMap(b => b.modellen))];
-        info.innerHTML = `<span class="chip" style="background:${c.kleur}"></span><b>${c.kleur}</b> · cel ${c.cel[0]},${c.cel[1]} · ` +
+        const kop = c.textuur ? `<b>${c.textuur}</b> (${c.breedte} vakjes breed)` : `<b>${c.kleur}</b> · cel ${c.cel[0]},${c.cel[1]}`;
+        info.innerHTML = `<span class="chip" style="background:${c.kleur}"></span>${kop} · ` +
           per.join(' · ') + `<br>${mods.slice(0,14).join(', ')}${mods.length > 14 ? ` … +${mods.length-14}` : ''}`;
       });
     }
