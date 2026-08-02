@@ -245,8 +245,7 @@
       "barrel",
       "chest",
       "gate",
-      "pot",
-      "table"
+      "pot"
      ]
     },
     {
@@ -284,7 +283,6 @@
       "stairs-wide-wood-handrail",
       "stairs-wood",
       "stairs-wood-handrail",
-      "stall-stool",
       "tree",
       "tree-crooked",
       "tree-high",
@@ -391,6 +389,7 @@
       1
      ],
      "modellen": [
+      "flowers",
       "flowers-tall",
       "heart",
       "lever",
@@ -536,16 +535,6 @@
      ]
     },
     {
-     "kit": "mini-dungeon",
-     "cel": [
-      5,
-      3
-     ],
-     "modellen": [
-      "table"
-     ]
-    },
-    {
      "kit": "fantasy-town-kit",
      "cel": [
       11,
@@ -680,25 +669,6 @@
       "tree-log",
       "tree-log-small",
       "workbench"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    15,
-    0
-   ],
-   "kleur": "#5f74ca",
-   "bronnen": [
-    {
-     "kit": "platformer-kit",
-     "cel": [
-      7,
-      1
-     ],
-     "modellen": [
-      "flowers"
      ]
     }
    ]
@@ -911,17 +881,6 @@
       3
      ],
      "modellen": [
-      "roof-corner",
-      "roof-corner-inner",
-      "roof-corner-round",
-      "roof-flat",
-      "roof-gable-detail",
-      "roof-gable-end",
-      "roof-gable-top",
-      "roof-left",
-      "roof-point",
-      "roof-right",
-      "roof-window",
       "tree",
       "tree-crooked",
       "tree-high",
@@ -1005,9 +964,6 @@
       "fence-gate",
       "fountain-round",
       "fountain-round-detail",
-      "rock-large",
-      "rock-small",
-      "rock-wide",
       "roof-corner",
       "roof-corner-inner",
       "roof-corner-round",
@@ -1017,8 +973,6 @@
       "roof-left",
       "roof-right",
       "roof-window",
-      "stairs-stone-corner",
-      "stairs-stone-round",
       "watermill",
       "watermill-wide",
       "wheel"
@@ -1107,7 +1061,6 @@
       3
      ],
      "modellen": [
-      "bucket",
       "chest",
       "tool-axe",
       "tool-hammer",
@@ -1117,6 +1070,60 @@
       "workbench",
       "workbench-anvil",
       "workbench-grind"
+     ]
+    }
+   ]
+  },
+  {
+   "cel": [
+    4,
+    2
+   ],
+   "kleur": "#c6cadd",
+   "bronnen": [
+    {
+     "kit": "fantasy-town-kit",
+     "cel": [
+      4,
+      2
+     ],
+     "modellen": [
+      "roof-corner",
+      "roof-corner-inner",
+      "roof-corner-round",
+      "roof-flat",
+      "roof-gable-detail",
+      "roof-gable-end",
+      "roof-gable-top",
+      "roof-left",
+      "roof-point",
+      "roof-right",
+      "roof-window",
+      "rock-large",
+      "rock-small",
+      "rock-wide",
+      "stairs-stone-corner",
+      "stairs-stone-round"
+     ]
+    },
+    {
+     "kit": "platformer-kit",
+     "cel": [
+      4,
+      2
+     ],
+     "modellen": [
+      "crate-strong"
+     ]
+    },
+    {
+     "kit": "survival-kit",
+     "cel": [
+      4,
+      2
+     ],
+     "modellen": [
+      "bucket"
      ]
     }
    ]
@@ -1294,7 +1301,6 @@
       3
      ],
      "modellen": [
-      "crate-strong",
       "lever",
       "lock",
       "rocks",
