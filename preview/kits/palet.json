@@ -387,9 +387,7 @@
       2
      ],
      "modellen": [
-      "fish",
-      "structure-canvas",
-      "tent-canvas"
+      "fish"
      ]
     }
    ]
@@ -401,16 +399,6 @@
    ],
    "kleur": "#e76047",
    "bronnen": [
-    {
-     "kit": "mini-dungeon",
-     "cel": [
-      15,
-      2
-     ],
-     "modellen": [
-      "banner"
-     ]
-    },
     {
      "kit": "mini-forest",
      "cel": [
@@ -735,43 +723,11 @@
   },
   {
    "cel": [
-    14,
-    0
-   ],
-   "kleur": "#6794d9",
-   "bronnen": [
-    {
-     "kit": "mini-forest",
-     "cel": [
-      14,
-      2
-     ],
-     "modellen": [
-      "building-roof",
-      "tent"
-     ]
-    }
-   ]
-  },
-  {
-   "cel": [
     15,
     0
    ],
    "kleur": "#5f74ca",
    "bronnen": [
-    {
-     "kit": "mini-forest",
-     "cel": [
-      15,
-      2
-     ],
-     "modellen": [
-      "building-roof",
-      "flag",
-      "tent"
-     ]
-    },
     {
      "kit": "platformer-kit",
      "cel": [
@@ -1212,7 +1168,9 @@
      ],
      "modellen": [
       "fence-broken",
-      "stairs-stone-corner"
+      "stairs-stone-corner",
+      "banner-green",
+      "banner-red"
      ]
     },
     {
@@ -1222,7 +1180,10 @@
       3
      ],
      "modellen": [
-      "target"
+      "target",
+      "flag",
+      "building-roof",
+      "tent"
      ]
     },
     {
@@ -1254,26 +1215,19 @@
       "bottle",
       "bottle-large",
       "fish",
-      "fish-large"
+      "fish-large",
+      "structure-canvas",
+      "tent-canvas"
      ]
-    }
-   ]
-  },
-  {
-   "cel": [
-    1,
-    3
-   ],
-   "kleur": "#db4e5b",
-   "bronnen": [
+    },
     {
-     "kit": "fantasy-town-kit",
+     "kit": "mini-dungeon",
      "cel": [
-      1,
-      3
+      5,
+      2
      ],
      "modellen": [
-      "banner-red"
+      "banner"
      ]
     }
    ]
@@ -1292,7 +1246,6 @@
       3
      ],
      "modellen": [
-      "banner-green",
       "roof-corner",
       "roof-corner-inner",
       "roof-corner-round",
