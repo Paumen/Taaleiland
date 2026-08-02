@@ -681,28 +681,6 @@
    "kleur": "#6cb588",
    "bronnen": [
     {
-     "kit": "mini-forest",
-     "cel": [
-      3,
-      3
-     ],
-     "modellen": [
-      "plant",
-      "tree",
-      "tree-high"
-     ]
-    },
-    {
-     "kit": "mini-forest",
-     "cel": [
-      2,
-      3
-     ],
-     "modellen": [
-      "patch-grass"
-     ]
-    },
-    {
      "kit": "survival-kit",
      "cel": [
       0,
@@ -897,6 +875,19 @@
       "tree-high",
       "tree-high-crooked",
       "tree-high-round"
+     ]
+    },
+    {
+     "kit": "mini-forest",
+     "cel": [
+      5,
+      1
+     ],
+     "modellen": [
+      "patch-grass",
+      "plant",
+      "tree",
+      "tree-high"
      ]
     }
    ]
