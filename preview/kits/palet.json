@@ -205,7 +205,6 @@
       3
      ],
      "modellen": [
-      "barrel",
       "boat-row-large",
       "boat-row-small",
       "bottle-large",
@@ -242,8 +241,7 @@
       "structure-platform-dock-small",
       "structure-platform-small",
       "structure-roof",
-      "tool-paddle",
-      "tool-shovel"
+      "tool-paddle"
      ]
     },
     {
@@ -255,10 +253,6 @@
      "modellen": [
       "arrow",
       "arrows",
-      "barrel",
-      "chest",
-      "coin-bronze",
-      "coin-gold",
       "crate",
       "crate-strong",
       "fence-broken",
@@ -280,7 +274,6 @@
       "platform-ramp",
       "poles",
       "sign",
-      "tree",
       "tree-pine",
       "tree-pine-small"
      ]
@@ -292,7 +285,6 @@
       3
      ],
      "modellen": [
-      "bedroll-frame",
       "bottle",
       "bottle-large",
       "bucket",
@@ -307,7 +299,6 @@
       "floor-hole",
       "floor-old",
       "resource-planks",
-      "resource-wood",
       "signpost",
       "signpost-single",
       "structure",
@@ -325,7 +316,6 @@
       "tree-log",
       "tree-log-small",
       "tree-tall",
-      "tree-trunk",
       "workbench",
       "workbench-anvil",
       "workbench-grind"
@@ -372,10 +362,8 @@
       1
      ],
      "modellen": [
-      "coin-gold",
       "flowers",
       "flowers-tall",
-      "key",
       "lock",
       "star"
      ]
@@ -477,16 +465,6 @@
       "ship-small",
       "ship-wreck"
      ]
-    },
-    {
-     "kit": "platformer-kit",
-     "cel": [
-      13,
-      3
-     ],
-     "modellen": [
-      "chest"
-     ]
     }
    ]
   },
@@ -548,7 +526,6 @@
      "modellen": [
       "arrow",
       "arrows",
-      "coin-bronze",
       "crate",
       "crate-strong",
       "fence-broken",
@@ -715,7 +692,6 @@
       "rock-sand-c",
       "tree-log",
       "tree-log-small",
-      "tree-trunk",
       "workbench"
      ]
     }
@@ -920,7 +896,6 @@
       "flowers-tall",
       "grass",
       "plant",
-      "tree",
       "tree-pine",
       "tree-pine-small"
      ]
@@ -1109,14 +1084,12 @@
       3
      ],
      "modellen": [
-      "barrel",
       "chest",
       "flag",
       "flag-high",
       "ship-pirate-large",
       "ship-pirate-medium",
-      "ship-pirate-small",
-      "tool-shovel"
+      "ship-pirate-small"
      ]
     },
     {
@@ -1126,9 +1099,6 @@
       2
      ],
      "modellen": [
-      "chest",
-      "coin-silver",
-      "saw",
       "spring"
      ]
     },
@@ -1482,13 +1452,10 @@
       3
      ],
      "modellen": [
-      "barrel",
-      "coin-silver",
       "crate-strong",
       "lever",
       "lock",
       "rocks",
-      "saw",
       "spring",
       "stones"
      ]
