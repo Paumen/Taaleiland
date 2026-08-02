@@ -40,6 +40,15 @@ const SAMEN = [
   ['#b06041', '#995a41'],   // Δ10 forest building-structure → gedeeld hout-bruin
 ];
 
+/* Cellen in de daklijst-strook van Fantasy Town (rij 3, x3-9) mogen niet leeglopen:
+ * twaalf dakrand-driehoeken samplen interpolerend over de hele strook. Die kleuren
+ * voegen we samen door de cel zelf om te kleuren met de doeltegel — geen UV's
+ * verplaatsen, visueel hetzelfde resultaat, en de strook blijft intact. */
+const SCHILDER = [
+  ['#c58161', '#d07b56'],   // Δ10 fantasy-hout (64 modellen) → hét hout-bruin, cel (9,3)
+  ['#53b29a', '#3da679'],   // Δ22 fantasy-daken (11 modellen) → zeegroen van 4 kits, cel (3,3)
+];
+
 /* ---------- glb in en uit (zelfde aanpak als consolideer-palet.mjs) ---------- */
 
 const JSON_CHUNK = 0x4e4f534a;
@@ -148,7 +157,7 @@ for (const [van, naar] of SAMEN) {
   zetten.push({ v, n });
   console.log(`${van} (cel ${v.cel}) → ${naar} (cel ${n.cel}): ${v.bronnen.reduce((t, b) => t + b.modellen.length, 0)} modelverwijzingen uit ${new Set(v.bronnen.map((b) => b.kit)).size} kit(s)`);
 }
-if (!zetten.length) { console.log('niets te doen'); process.exit(0); }
+if (!zetten.length && !SCHILDER.some(([van]) => perKleur.has(van))) { console.log('niets te doen'); process.exit(0); }
 if (TOON) { console.log('\n--toon: niets weggeschreven'); process.exit(0); }
 
 /* uv's verhuizen: alleen glb's van kits die de broncel gebruiken, en alleen vertices in die cel */
@@ -214,6 +223,20 @@ for (const { v, n } of zetten) {
   }
   n.bronnen.push(...v.bronnen);
   palet.cellen = palet.cellen.filter((c) => c !== v);
+}
+
+/* schilder-samenvoegingen: tegel vervangen, cel houdt zijn plek en modellen */
+for (const [van, naar] of SCHILDER) {
+  const v = perKleur.get(van), n = perKleur.get(naar);
+  if (!v) { console.log(`${van} → ${naar} (schilderen): al gedaan, overgeslagen`); continue; }
+  if (!n) throw new Error(`${van} → ${naar}: doelkleur bestaat niet in palet.json`);
+  const [cx, cy] = v.cel, [nx, ny] = n.cel;
+  for (let y = 0; y < CH; y++) {
+    kaart.px.copy(kaart.px, ((cy * CH + y) * kaart.w + cx * CB) * 4,
+      ((ny * CH + y) * kaart.w + nx * CB) * 4, ((ny * CH + y) * kaart.w + (nx + 1) * CB) * 4);
+  }
+  v.kleur = naar;
+  console.log(`${van} → ${naar}: cel ${v.cel} omgeschilderd (${v.bronnen.reduce((t, b) => t + b.modellen.length, 0)} modelverwijzingen blijven staan)`);
 }
 schrijfPng(join(KITS_MAP, 'colormap.png'), kaart.w, kaart.h, kaart.px);
 for (const kit of readdirSync(KITS_MAP)) {
